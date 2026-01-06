@@ -9,9 +9,8 @@ part of 'reputation_model.dart';
 _$ReputationModelImpl _$$ReputationModelImplFromJson(
         Map<String, dynamic> json) =>
     _$ReputationModelImpl(
-      reputationHistoryId: (json['reputation_history_id'] as num).toInt(),
+      reputationHistoryType: json['reputation_history_type'] as String,
       userId: (json['user_id'] as num).toInt(),
-      reputationType: json['reputation_type'] as String,
       reputationChange: (json['reputation_change'] as num).toInt(),
       creationDate: (json['creation_date'] as num).toInt(),
       postId: (json['post_id'] as num?)?.toInt(),
@@ -20,9 +19,8 @@ _$ReputationModelImpl _$$ReputationModelImplFromJson(
 Map<String, dynamic> _$$ReputationModelImplToJson(
         _$ReputationModelImpl instance) =>
     <String, dynamic>{
-      'reputation_history_id': instance.reputationHistoryId,
+      'reputation_history_type': instance.reputationHistoryType,
       'user_id': instance.userId,
-      'reputation_type': instance.reputationType,
       'reputation_change': instance.reputationChange,
       'creation_date': instance.creationDate,
       'post_id': instance.postId,

@@ -22,9 +22,8 @@ class ReputationRepositoryImpl implements ReputationRepository {
     return models
         .map(
           (model) => ReputationHistoryEntity(
-            reputationHistoryId: model.reputationHistoryId,
+            reputationHistoryType: model.reputationHistoryType,
             userId: model.userId,
-            reputationType: model.reputationType,
             reputationChange: model.reputationChange,
             createdAt: DateTime.fromMillisecondsSinceEpoch(
               model.creationDate * 1000,

@@ -142,7 +142,7 @@ class _ReputationDetailScreenState extends State<ReputationDetailScreen> {
                             vertical: 6,
                           ),
                           child: ListTile(
-                            title: Text(reputation.reputationType),
+                            title: Text(reputation.reputationHistoryType),
                             subtitle: Text(
                               DateFormat(
                                 'MMM dd, yyyy HH:mm',

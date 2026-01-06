@@ -1,17 +1,15 @@
 import 'package:equatable/equatable.dart';
 
 class ReputationHistoryEntity extends Equatable {
-  final int reputationHistoryId;
+  final String reputationHistoryType;
   final int userId;
-  final String reputationType;
   final int reputationChange;
   final DateTime createdAt;
   final int? postId;
 
   const ReputationHistoryEntity({
-    required this.reputationHistoryId,
+    required this.reputationHistoryType,
     required this.userId,
-    required this.reputationType,
     required this.reputationChange,
     required this.createdAt,
     this.postId,
@@ -19,9 +17,8 @@ class ReputationHistoryEntity extends Equatable {
 
   @override
   List<Object?> get props => [
-    reputationHistoryId,
+    reputationHistoryType,
     userId,
-    reputationType,
     reputationChange,
     createdAt,
     postId,

@@ -20,12 +20,10 @@ ReputationModel _$ReputationModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ReputationModel {
-  @JsonKey(name: 'reputation_history_id')
-  int get reputationHistoryId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'reputation_history_type')
+  String get reputationHistoryType => throw _privateConstructorUsedError;
   @JsonKey(name: 'user_id')
   int get userId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'reputation_type')
-  String get reputationType => throw _privateConstructorUsedError;
   @JsonKey(name: 'reputation_change')
   int get reputationChange => throw _privateConstructorUsedError;
   @JsonKey(name: 'creation_date')
@@ -46,9 +44,8 @@ abstract class $ReputationModelCopyWith<$Res> {
       _$ReputationModelCopyWithImpl<$Res, ReputationModel>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'reputation_history_id') int reputationHistoryId,
+      {@JsonKey(name: 'reputation_history_type') String reputationHistoryType,
       @JsonKey(name: 'user_id') int userId,
-      @JsonKey(name: 'reputation_type') String reputationType,
       @JsonKey(name: 'reputation_change') int reputationChange,
       @JsonKey(name: 'creation_date') int creationDate,
       @JsonKey(name: 'post_id') int? postId});
@@ -67,26 +64,21 @@ class _$ReputationModelCopyWithImpl<$Res, $Val extends ReputationModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? reputationHistoryId = null,
+    Object? reputationHistoryType = null,
     Object? userId = null,
-    Object? reputationType = null,
     Object? reputationChange = null,
     Object? creationDate = null,
     Object? postId = freezed,
   }) {
     return _then(_value.copyWith(
-      reputationHistoryId: null == reputationHistoryId
-          ? _value.reputationHistoryId
-          : reputationHistoryId // ignore: cast_nullable_to_non_nullable
-              as int,
+      reputationHistoryType: null == reputationHistoryType
+          ? _value.reputationHistoryType
+          : reputationHistoryType // ignore: cast_nullable_to_non_nullable
+              as String,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as int,
-      reputationType: null == reputationType
-          ? _value.reputationType
-          : reputationType // ignore: cast_nullable_to_non_nullable
-              as String,
       reputationChange: null == reputationChange
           ? _value.reputationChange
           : reputationChange // ignore: cast_nullable_to_non_nullable
@@ -112,9 +104,8 @@ abstract class _$$ReputationModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'reputation_history_id') int reputationHistoryId,
+      {@JsonKey(name: 'reputation_history_type') String reputationHistoryType,
       @JsonKey(name: 'user_id') int userId,
-      @JsonKey(name: 'reputation_type') String reputationType,
       @JsonKey(name: 'reputation_change') int reputationChange,
       @JsonKey(name: 'creation_date') int creationDate,
       @JsonKey(name: 'post_id') int? postId});
@@ -131,26 +122,21 @@ class __$$ReputationModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? reputationHistoryId = null,
+    Object? reputationHistoryType = null,
     Object? userId = null,
-    Object? reputationType = null,
     Object? reputationChange = null,
     Object? creationDate = null,
     Object? postId = freezed,
   }) {
     return _then(_$ReputationModelImpl(
-      reputationHistoryId: null == reputationHistoryId
-          ? _value.reputationHistoryId
-          : reputationHistoryId // ignore: cast_nullable_to_non_nullable
-              as int,
+      reputationHistoryType: null == reputationHistoryType
+          ? _value.reputationHistoryType
+          : reputationHistoryType // ignore: cast_nullable_to_non_nullable
+              as String,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as int,
-      reputationType: null == reputationType
-          ? _value.reputationType
-          : reputationType // ignore: cast_nullable_to_non_nullable
-              as String,
       reputationChange: null == reputationChange
           ? _value.reputationChange
           : reputationChange // ignore: cast_nullable_to_non_nullable
@@ -171,10 +157,9 @@ class __$$ReputationModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ReputationModelImpl implements _ReputationModel {
   const _$ReputationModelImpl(
-      {@JsonKey(name: 'reputation_history_id')
-      required this.reputationHistoryId,
+      {@JsonKey(name: 'reputation_history_type')
+      required this.reputationHistoryType,
       @JsonKey(name: 'user_id') required this.userId,
-      @JsonKey(name: 'reputation_type') required this.reputationType,
       @JsonKey(name: 'reputation_change') required this.reputationChange,
       @JsonKey(name: 'creation_date') required this.creationDate,
       @JsonKey(name: 'post_id') this.postId});
@@ -183,14 +168,11 @@ class _$ReputationModelImpl implements _ReputationModel {
       _$$ReputationModelImplFromJson(json);
 
   @override
-  @JsonKey(name: 'reputation_history_id')
-  final int reputationHistoryId;
+  @JsonKey(name: 'reputation_history_type')
+  final String reputationHistoryType;
   @override
   @JsonKey(name: 'user_id')
   final int userId;
-  @override
-  @JsonKey(name: 'reputation_type')
-  final String reputationType;
   @override
   @JsonKey(name: 'reputation_change')
   final int reputationChange;
@@ -203,7 +185,7 @@ class _$ReputationModelImpl implements _ReputationModel {
 
   @override
   String toString() {
-    return 'ReputationModel(reputationHistoryId: $reputationHistoryId, userId: $userId, reputationType: $reputationType, reputationChange: $reputationChange, creationDate: $creationDate, postId: $postId)';
+    return 'ReputationModel(reputationHistoryType: $reputationHistoryType, userId: $userId, reputationChange: $reputationChange, creationDate: $creationDate, postId: $postId)';
   }
 
   @override
@@ -211,11 +193,9 @@ class _$ReputationModelImpl implements _ReputationModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ReputationModelImpl &&
-            (identical(other.reputationHistoryId, reputationHistoryId) ||
-                other.reputationHistoryId == reputationHistoryId) &&
+            (identical(other.reputationHistoryType, reputationHistoryType) ||
+                other.reputationHistoryType == reputationHistoryType) &&
             (identical(other.userId, userId) || other.userId == userId) &&
-            (identical(other.reputationType, reputationType) ||
-                other.reputationType == reputationType) &&
             (identical(other.reputationChange, reputationChange) ||
                 other.reputationChange == reputationChange) &&
             (identical(other.creationDate, creationDate) ||
@@ -225,8 +205,8 @@ class _$ReputationModelImpl implements _ReputationModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, reputationHistoryId, userId,
-      reputationType, reputationChange, creationDate, postId);
+  int get hashCode => Object.hash(runtimeType, reputationHistoryType, userId,
+      reputationChange, creationDate, postId);
 
   @JsonKey(ignore: true)
   @override
@@ -245,10 +225,9 @@ class _$ReputationModelImpl implements _ReputationModel {
 
 abstract class _ReputationModel implements ReputationModel {
   const factory _ReputationModel(
-      {@JsonKey(name: 'reputation_history_id')
-      required final int reputationHistoryId,
+      {@JsonKey(name: 'reputation_history_type')
+      required final String reputationHistoryType,
       @JsonKey(name: 'user_id') required final int userId,
-      @JsonKey(name: 'reputation_type') required final String reputationType,
       @JsonKey(name: 'reputation_change') required final int reputationChange,
       @JsonKey(name: 'creation_date') required final int creationDate,
       @JsonKey(name: 'post_id') final int? postId}) = _$ReputationModelImpl;
@@ -257,14 +236,11 @@ abstract class _ReputationModel implements ReputationModel {
       _$ReputationModelImpl.fromJson;
 
   @override
-  @JsonKey(name: 'reputation_history_id')
-  int get reputationHistoryId;
+  @JsonKey(name: 'reputation_history_type')
+  String get reputationHistoryType;
   @override
   @JsonKey(name: 'user_id')
   int get userId;
-  @override
-  @JsonKey(name: 'reputation_type')
-  String get reputationType;
   @override
   @JsonKey(name: 'reputation_change')
   int get reputationChange;

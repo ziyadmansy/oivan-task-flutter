@@ -1,3 +1,4 @@
+import 'package:stackoverflow_users_reputation/core/network/api_routes.dart';
 import 'package:stackoverflow_users_reputation/core/network/api_service.dart';
 
 import '../models/user_model.dart';
@@ -17,7 +18,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     required int pageSize,
   }) async {
     final response = await apiService.get(
-      endpoint: 'users',
+      endpoint: ApiRoutes.users,
       queryParameters: {
         'page': page,
         'pagesize': pageSize,
