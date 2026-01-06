@@ -30,4 +30,7 @@ class AppConstants {
   // Image Picker
   static const double maxImageSizeMB = 5.0;
   static const int imageQuality = 80;
+
+  // Website URLs
+  static const String stackoverflowSite = 'stackoverflow';
 }

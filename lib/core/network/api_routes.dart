@@ -3,4 +3,5 @@ class ApiRoutes {
 
   /// Users
   static const String users = '/users';
+  static const String reputationHistory = '/users/{userId}/reputation-history';
 }

@@ -17,17 +17,23 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     required this.removeBookmarkUseCase,
     required this.getBookmarkedUsersUseCase,
   }) : super(const UserState.initial()) {
-    on<UserEvent>((event, emit) {
-      event.when(
-        loadUsers: _onLoadUsers,
-        loadBookmarkedUsers: _onLoadBookmarkedUsers,
-        toggleBookmark: _onToggleBookmark,
-        filterByBookmark: _onFilterByBookmark,
+    on<UserEvent>((event, emit) async {
+      await event.when(
+        loadUsers: (page, pageSize) => _onLoadUsers(page, pageSize, emit),
+        loadBookmarkedUsers: () => _onLoadBookmarkedUsers(emit),
+        toggleBookmark: (user) => _onToggleBookmark(user, emit),
+        filterByBookmark:
+            (showOnlyBookmarked) =>
+                _onFilterByBookmark(showOnlyBookmarked, emit),
       );
     });
   }
 
-  Future<void> _onLoadUsers(int page, int pageSize) async {
+  Future<void> _onLoadUsers(
+    int page,
+    int pageSize,
+    Emitter<UserState> emit,
+  ) async {
     emit(const UserState.loading());
     try {
       final users = await getUsersUseCase(page: page, pageSize: pageSize);
@@ -37,7 +43,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     }
   }
 
-  Future<void> _onLoadBookmarkedUsers() async {
+  Future<void> _onLoadBookmarkedUsers(Emitter<UserState> emit) async {
     emit(const UserState.loading());
     try {
       final users = await getBookmarkedUsersUseCase();
@@ -47,7 +53,10 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     }
   }
 
-  Future<void> _onToggleBookmark(UserEntity user) async {
+  Future<void> _onToggleBookmark(
+    UserEntity user,
+    Emitter<UserState> emit,
+  ) async {
     try {
       if (user.isBookmarked) {
         await removeBookmarkUseCase(user.userId);
@@ -55,27 +64,34 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         await bookmarkUserUseCase(user);
       }
 
-      // Update the user list with the new bookmark status
-      // final updatedUsers =
-      //     state.users.map((user) {
-      //       if (user.userId == user.userId) {
-      //         return user.copyWith(isBookmarked: !user.isBookmarked);
-      //       }
-      //       return user;
-      //     }).toList();
+      final currentState = state;
+      currentState.mapOrNull(
+        loaded: (loadedState) {
+          final updatedUsers =
+              loadedState.users.map((u) {
+                if (u.userId == user.userId) {
+                  return u.copyWith(isBookmarked: !u.isBookmarked);
+                }
+                return u;
+              }).toList();
 
-      // emit(
-      //   UserState.loaded(
-      //     users: updatedUsers,
-      //     showOnlyBookmarked: currentState.showOnlyBookmarked,
-      //   ),
-      // );
+          emit(
+            UserState.loaded(
+              users: updatedUsers,
+              showOnlyBookmarked: loadedState.showOnlyBookmarked,
+            ),
+          );
+        },
+      );
     } catch (e) {
       emit(UserState.error('Failed to toggle bookmark: ${e.toString()}'));
     }
   }
 
-  Future<void> _onFilterByBookmark(bool showOnlyBookmarked) async {
+  Future<void> _onFilterByBookmark(
+    bool showOnlyBookmarked,
+    Emitter<UserState> emit,
+  ) async {
     try {
       if (showOnlyBookmarked) {
         final bookmarkedUsers = await getBookmarkedUsersUseCase();
@@ -83,7 +99,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           UserState.loaded(users: bookmarkedUsers, showOnlyBookmarked: true),
         );
       } else {
-        // Reload all users
         add(const UserEvent.loadUsers());
       }
     } catch (e) {

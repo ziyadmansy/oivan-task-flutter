@@ -1,4 +1,6 @@
+import 'package:stackoverflow_users_reputation/core/network/api_routes.dart';
 import 'package:stackoverflow_users_reputation/core/network/api_service.dart';
+import 'package:stackoverflow_users_reputation/core/utils/constants.dart';
 
 import '../models/reputation_model.dart';
 
@@ -15,30 +17,28 @@ class ReputationRemoteDataSourceImpl implements ReputationRemoteDataSource {
 
   ReputationRemoteDataSourceImpl({required this.apiService});
 
-  static const String baseUrl = 'https://api.stackexchange.com/2.2';
-
   @override
   Future<List<ReputationModel>> getReputationHistory({
     required int userId,
     required int page,
     required int pageSize,
   }) async {
-    try {
-      final response = await apiService.get(
-        endpoint: '$baseUrl/users/$userId/reputation-history',
-        queryParameters: {
-          'page': page,
-          'pagesize': pageSize,
-          'site': 'stackoverflow',
-        },
-      );
+    final endpoint = ApiRoutes.reputationHistory.replaceFirst(
+      '{userId}',
+      userId.toString(),
+    );
+    final response = await apiService.get(
+      endpoint: endpoint,
+      queryParameters: {
+        'page': page,
+        'pagesize': pageSize,
+        'site': AppConstants.stackoverflowSite,
+      },
+    );
 
-      final List<dynamic> items = response.data['items'] ?? [];
-      return items
-          .map((item) => ReputationModel.fromJson(item as Map<String, dynamic>))
-          .toList();
-    } catch (e) {
-      throw Exception('Failed to fetch reputation history: $e');
-    }
+    final List<dynamic> items = response.data['items'] ?? [];
+    return items
+        .map((item) => ReputationModel.fromJson(item as Map<String, dynamic>))
+        .toList();
   }
 }
