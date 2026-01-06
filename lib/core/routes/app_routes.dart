@@ -4,7 +4,7 @@ import 'package:stackoverflow_users_reputation/modules/reputation/presentation/b
 import 'package:stackoverflow_users_reputation/modules/reputation/presentation/screens/reputation_detail_screen.dart';
 import 'package:stackoverflow_users_reputation/modules/users/domain/entities/user_entity.dart';
 import 'package:stackoverflow_users_reputation/modules/users/presentation/bloc/user_bloc.dart';
-import 'package:stackoverflow_users_reputation/modules/users/presentation/screens/users_list_screen.dart';
+import 'package:stackoverflow_users_reputation/modules/users/presentation/screens/home_screen.dart';
 
 class AppRouter {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -14,7 +14,7 @@ class AppRouter {
           builder:
               (_) => BlocProvider<UserBloc>(
                 create: (context) => context.read<UserBloc>(),
-                child: const UsersListScreen(),
+                child: const HomeScreen(),
               ),
         );
       case '/reputation':

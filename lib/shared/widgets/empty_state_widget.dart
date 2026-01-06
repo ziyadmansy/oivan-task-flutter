@@ -46,9 +46,9 @@ class EmptyStateWidget extends StatelessWidget {
                 color: iconColor ?? AppColors.textLight,
               ),
             ),
-            
+
             const SizedBox(height: 24),
-            
+
             // Title
             Text(
               title,
@@ -58,7 +58,7 @@ class EmptyStateWidget extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             ),
-            
+
             // Subtitle (optional)
             if (subtitle != null) ...[
               const SizedBox(height: 8),
@@ -70,7 +70,7 @@ class EmptyStateWidget extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ],
-            
+
             // Action Button (optional)
             if (actionText != null && onActionPressed != null) ...[
               const SizedBox(height: 24),
@@ -116,19 +116,6 @@ class EmptyStateWidgets {
       title: title,
       subtitle: subtitle,
       actionText: actionText,
-      onActionPressed: onActionPressed,
-    );
-  }
-
-  static EmptyStateWidget noExpenses({
-    String? actionText,
-    VoidCallback? onActionPressed,
-  }) {
-    return EmptyStateWidget(
-      icon: Icons.receipt_long_outlined,
-      title: 'No Expenses Yet',
-      subtitle: 'Start tracking your expenses by adding your first expense.',
-      actionText: actionText ?? 'Add Expense',
       onActionPressed: onActionPressed,
     );
   }
