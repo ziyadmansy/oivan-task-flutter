@@ -43,7 +43,6 @@ class StackOverflowUsersApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightTheme,
         onGenerateRoute: AppRouter.onGenerateRoute,
-        home: const Scaffold(body: SizedBox()),
         initialRoute: '/',
       ),
     );
