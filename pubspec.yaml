@@ -43,6 +43,7 @@ dependencies:
 
   # HTTP Client
   dio: ^5.9.0
+  talker_dio_logger: ^4.9.3
 
   # Local Storage
   hive: ^2.2.3
@@ -63,6 +64,10 @@ dependencies:
 
   # Dependency Injection
   injectable: ^2.3.2
+
+  # Device Info
+  package_info_plus: ^8.1.4
+  device_info_plus: ^11.2.2
 
 dev_dependencies:
   flutter_test:

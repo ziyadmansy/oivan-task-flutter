@@ -23,11 +23,11 @@ void main() async {
   // Setup dependency injection
   await setupServiceLocator();
 
-  runApp(const ExpenseTrackerApp());
+  runApp(const StackOverflowUsersApp());
 }
 
-class ExpenseTrackerApp extends StatelessWidget {
-  const ExpenseTrackerApp({super.key});
+class StackOverflowUsersApp extends StatelessWidget {
+  const StackOverflowUsersApp({super.key});
 
   @override
   Widget build(BuildContext context) {

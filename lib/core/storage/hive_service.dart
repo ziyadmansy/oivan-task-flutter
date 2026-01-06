@@ -1,6 +1,6 @@
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:stackoverflow_users_reputation/core/errors/custom_exceptions/cache_exception.dart';
 import '../../modules/users/data/models/bookmarked_user_model.dart';
-import '../error/exceptions.dart';
 
 class HiveService {
   static HiveService? _instance;

@@ -1,5 +1,5 @@
-import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:stackoverflow_users_reputation/core/network/api_service.dart';
 
 import '../../modules/reputation/data/datasources/reputation_remote_data_source.dart';
 import '../../modules/reputation/data/repositories_impl/reputation_repository_impl.dart';
@@ -12,18 +12,16 @@ import '../../modules/users/data/repositories_impl/user_repository_impl.dart';
 import '../../modules/users/domain/repositories/user_repository.dart';
 import '../../modules/users/domain/usecases/user_usecases.dart';
 import '../../modules/users/presentation/bloc/user_bloc.dart';
-import '../network/dio_client.dart';
 
 final getIt = GetIt.instance;
 
 Future<void> setupServiceLocator() async {
   // Network
-  final dioClient = DioClient();
-  getIt.registerSingleton<Dio>(dioClient.dio);
+  getIt.registerSingleton<ApiService>(ApiService());
 
   // Users Data Sources
   getIt.registerSingleton<UserRemoteDataSource>(
-    UserRemoteDataSourceImpl(dio: getIt<Dio>()),
+    UserRemoteDataSourceImpl(apiService: getIt<ApiService>()),
   );
   getIt.registerSingleton<UserLocalDataSource>(UserLocalDataSourceImpl());
 
@@ -64,7 +62,7 @@ Future<void> setupServiceLocator() async {
 
   // Reputation Data Sources
   getIt.registerSingleton<ReputationRemoteDataSource>(
-    ReputationRemoteDataSourceImpl(dio: getIt<Dio>()),
+    ReputationRemoteDataSourceImpl(apiService: getIt<ApiService>()),
   );
 
   // Reputation Repository

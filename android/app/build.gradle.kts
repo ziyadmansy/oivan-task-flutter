@@ -6,33 +6,29 @@ plugins {
 }
 
 android {
-    namespace = "com.example.inovola_task"
-    compileSdk = flutter.compileSdkVersion
+    namespace = "com.example.oivan_task"
+    compileSdk = 36
     ndkVersion = "27.0.12077973"
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-    kotlinOptions { jvmTarget = JavaVersion.VERSION_11.toString() }
+    kotlinOptions { jvmTarget = "1.8" // or "17" }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID
-        // (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.inovola_task"
+        applicationId = "com.example.oivan_task"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
-        versionCode = flutter.versionCode
-        versionName = flutter.versionName
+        minSdk = 26
+        targetSdk = 36
+        versionCode = flutterVersionCode.toInteger()
+        versionName = flutterVersionName
     }
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.getByName("debug")
         }
     }

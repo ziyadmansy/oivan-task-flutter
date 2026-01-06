@@ -1,4 +1,4 @@
-import 'package:dio/dio.dart';
+import 'package:stackoverflow_users_reputation/core/network/api_service.dart';
 
 import '../models/reputation_model.dart';
 
@@ -11,9 +11,9 @@ abstract class ReputationRemoteDataSource {
 }
 
 class ReputationRemoteDataSourceImpl implements ReputationRemoteDataSource {
-  final Dio dio;
+  final ApiService apiService;
 
-  ReputationRemoteDataSourceImpl({required this.dio});
+  ReputationRemoteDataSourceImpl({required this.apiService});
 
   static const String baseUrl = 'https://api.stackexchange.com/2.2';
 
@@ -24,8 +24,8 @@ class ReputationRemoteDataSourceImpl implements ReputationRemoteDataSource {
     required int pageSize,
   }) async {
     try {
-      final response = await dio.get(
-        '$baseUrl/users/$userId/reputation-history',
+      final response = await apiService.get(
+        endpoint: '$baseUrl/users/$userId/reputation-history',
         queryParameters: {
           'page': page,
           'pagesize': pageSize,
