@@ -17,40 +17,47 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ReputationEvent {
   int get userId => throw _privateConstructorUsedError;
-  int get page => throw _privateConstructorUsedError;
   int get pageSize => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int userId, int page, int pageSize)
-        loadReputationHistory,
+    required TResult Function(int userId, int pageKey, int pageSize)
+        fetchNextPage,
+    required TResult Function(int userId, int pageSize)
+        refreshReputationHistory,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int userId, int page, int pageSize)?
-        loadReputationHistory,
+    TResult? Function(int userId, int pageKey, int pageSize)? fetchNextPage,
+    TResult? Function(int userId, int pageSize)? refreshReputationHistory,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int userId, int page, int pageSize)? loadReputationHistory,
+    TResult Function(int userId, int pageKey, int pageSize)? fetchNextPage,
+    TResult Function(int userId, int pageSize)? refreshReputationHistory,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_LoadReputationHistoryEvent value)
-        loadReputationHistory,
+    required TResult Function(_FetchNextPageEvent value) fetchNextPage,
+    required TResult Function(_RefreshReputationHistoryEvent value)
+        refreshReputationHistory,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_LoadReputationHistoryEvent value)? loadReputationHistory,
+    TResult? Function(_FetchNextPageEvent value)? fetchNextPage,
+    TResult? Function(_RefreshReputationHistoryEvent value)?
+        refreshReputationHistory,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_LoadReputationHistoryEvent value)? loadReputationHistory,
+    TResult Function(_FetchNextPageEvent value)? fetchNextPage,
+    TResult Function(_RefreshReputationHistoryEvent value)?
+        refreshReputationHistory,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -66,7 +73,7 @@ abstract class $ReputationEventCopyWith<$Res> {
           ReputationEvent value, $Res Function(ReputationEvent) then) =
       _$ReputationEventCopyWithImpl<$Res, ReputationEvent>;
   @useResult
-  $Res call({int userId, int page, int pageSize});
+  $Res call({int userId, int pageSize});
 }
 
 /// @nodoc
@@ -83,17 +90,12 @@ class _$ReputationEventCopyWithImpl<$Res, $Val extends ReputationEvent>
   @override
   $Res call({
     Object? userId = null,
-    Object? page = null,
     Object? pageSize = null,
   }) {
     return _then(_value.copyWith(
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
-              as int,
-      page: null == page
-          ? _value.page
-          : page // ignore: cast_nullable_to_non_nullable
               as int,
       pageSize: null == pageSize
           ? _value.pageSize
@@ -104,42 +106,39 @@ class _$ReputationEventCopyWithImpl<$Res, $Val extends ReputationEvent>
 }
 
 /// @nodoc
-abstract class _$$LoadReputationHistoryEventImplCopyWith<$Res>
+abstract class _$$FetchNextPageEventImplCopyWith<$Res>
     implements $ReputationEventCopyWith<$Res> {
-  factory _$$LoadReputationHistoryEventImplCopyWith(
-          _$LoadReputationHistoryEventImpl value,
-          $Res Function(_$LoadReputationHistoryEventImpl) then) =
-      __$$LoadReputationHistoryEventImplCopyWithImpl<$Res>;
+  factory _$$FetchNextPageEventImplCopyWith(_$FetchNextPageEventImpl value,
+          $Res Function(_$FetchNextPageEventImpl) then) =
+      __$$FetchNextPageEventImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int userId, int page, int pageSize});
+  $Res call({int userId, int pageKey, int pageSize});
 }
 
 /// @nodoc
-class __$$LoadReputationHistoryEventImplCopyWithImpl<$Res>
-    extends _$ReputationEventCopyWithImpl<$Res,
-        _$LoadReputationHistoryEventImpl>
-    implements _$$LoadReputationHistoryEventImplCopyWith<$Res> {
-  __$$LoadReputationHistoryEventImplCopyWithImpl(
-      _$LoadReputationHistoryEventImpl _value,
-      $Res Function(_$LoadReputationHistoryEventImpl) _then)
+class __$$FetchNextPageEventImplCopyWithImpl<$Res>
+    extends _$ReputationEventCopyWithImpl<$Res, _$FetchNextPageEventImpl>
+    implements _$$FetchNextPageEventImplCopyWith<$Res> {
+  __$$FetchNextPageEventImplCopyWithImpl(_$FetchNextPageEventImpl _value,
+      $Res Function(_$FetchNextPageEventImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? userId = null,
-    Object? page = null,
+    Object? pageKey = null,
     Object? pageSize = null,
   }) {
-    return _then(_$LoadReputationHistoryEventImpl(
+    return _then(_$FetchNextPageEventImpl(
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as int,
-      page: null == page
-          ? _value.page
-          : page // ignore: cast_nullable_to_non_nullable
+      pageKey: null == pageKey
+          ? _value.pageKey
+          : pageKey // ignore: cast_nullable_to_non_nullable
               as int,
       pageSize: null == pageSize
           ? _value.pageSize
@@ -151,71 +150,74 @@ class __$$LoadReputationHistoryEventImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$LoadReputationHistoryEventImpl implements _LoadReputationHistoryEvent {
-  const _$LoadReputationHistoryEventImpl(
-      {required this.userId, this.page = 1, this.pageSize = 30});
+class _$FetchNextPageEventImpl implements _FetchNextPageEvent {
+  const _$FetchNextPageEventImpl(
+      {required this.userId, this.pageKey = 1, this.pageSize = 30});
 
   @override
   final int userId;
   @override
   @JsonKey()
-  final int page;
+  final int pageKey;
   @override
   @JsonKey()
   final int pageSize;
 
   @override
   String toString() {
-    return 'ReputationEvent.loadReputationHistory(userId: $userId, page: $page, pageSize: $pageSize)';
+    return 'ReputationEvent.fetchNextPage(userId: $userId, pageKey: $pageKey, pageSize: $pageSize)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$LoadReputationHistoryEventImpl &&
+            other is _$FetchNextPageEventImpl &&
             (identical(other.userId, userId) || other.userId == userId) &&
-            (identical(other.page, page) || other.page == page) &&
+            (identical(other.pageKey, pageKey) || other.pageKey == pageKey) &&
             (identical(other.pageSize, pageSize) ||
                 other.pageSize == pageSize));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, userId, page, pageSize);
+  int get hashCode => Object.hash(runtimeType, userId, pageKey, pageSize);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$LoadReputationHistoryEventImplCopyWith<_$LoadReputationHistoryEventImpl>
-      get copyWith => __$$LoadReputationHistoryEventImplCopyWithImpl<
-          _$LoadReputationHistoryEventImpl>(this, _$identity);
+  _$$FetchNextPageEventImplCopyWith<_$FetchNextPageEventImpl> get copyWith =>
+      __$$FetchNextPageEventImplCopyWithImpl<_$FetchNextPageEventImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int userId, int page, int pageSize)
-        loadReputationHistory,
+    required TResult Function(int userId, int pageKey, int pageSize)
+        fetchNextPage,
+    required TResult Function(int userId, int pageSize)
+        refreshReputationHistory,
   }) {
-    return loadReputationHistory(userId, page, pageSize);
+    return fetchNextPage(userId, pageKey, pageSize);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int userId, int page, int pageSize)?
-        loadReputationHistory,
+    TResult? Function(int userId, int pageKey, int pageSize)? fetchNextPage,
+    TResult? Function(int userId, int pageSize)? refreshReputationHistory,
   }) {
-    return loadReputationHistory?.call(userId, page, pageSize);
+    return fetchNextPage?.call(userId, pageKey, pageSize);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int userId, int page, int pageSize)? loadReputationHistory,
+    TResult Function(int userId, int pageKey, int pageSize)? fetchNextPage,
+    TResult Function(int userId, int pageSize)? refreshReputationHistory,
     required TResult orElse(),
   }) {
-    if (loadReputationHistory != null) {
-      return loadReputationHistory(userId, page, pageSize);
+    if (fetchNextPage != null) {
+      return fetchNextPage(userId, pageKey, pageSize);
     }
     return orElse();
   }
@@ -223,47 +225,215 @@ class _$LoadReputationHistoryEventImpl implements _LoadReputationHistoryEvent {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_LoadReputationHistoryEvent value)
-        loadReputationHistory,
+    required TResult Function(_FetchNextPageEvent value) fetchNextPage,
+    required TResult Function(_RefreshReputationHistoryEvent value)
+        refreshReputationHistory,
   }) {
-    return loadReputationHistory(this);
+    return fetchNextPage(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_LoadReputationHistoryEvent value)? loadReputationHistory,
+    TResult? Function(_FetchNextPageEvent value)? fetchNextPage,
+    TResult? Function(_RefreshReputationHistoryEvent value)?
+        refreshReputationHistory,
   }) {
-    return loadReputationHistory?.call(this);
+    return fetchNextPage?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_LoadReputationHistoryEvent value)? loadReputationHistory,
+    TResult Function(_FetchNextPageEvent value)? fetchNextPage,
+    TResult Function(_RefreshReputationHistoryEvent value)?
+        refreshReputationHistory,
     required TResult orElse(),
   }) {
-    if (loadReputationHistory != null) {
-      return loadReputationHistory(this);
+    if (fetchNextPage != null) {
+      return fetchNextPage(this);
     }
     return orElse();
   }
 }
 
-abstract class _LoadReputationHistoryEvent implements ReputationEvent {
-  const factory _LoadReputationHistoryEvent(
+abstract class _FetchNextPageEvent implements ReputationEvent {
+  const factory _FetchNextPageEvent(
       {required final int userId,
-      final int page,
-      final int pageSize}) = _$LoadReputationHistoryEventImpl;
+      final int pageKey,
+      final int pageSize}) = _$FetchNextPageEventImpl;
 
   @override
   int get userId;
-  @override
-  int get page;
+  int get pageKey;
   @override
   int get pageSize;
   @override
   @JsonKey(ignore: true)
-  _$$LoadReputationHistoryEventImplCopyWith<_$LoadReputationHistoryEventImpl>
+  _$$FetchNextPageEventImplCopyWith<_$FetchNextPageEventImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$RefreshReputationHistoryEventImplCopyWith<$Res>
+    implements $ReputationEventCopyWith<$Res> {
+  factory _$$RefreshReputationHistoryEventImplCopyWith(
+          _$RefreshReputationHistoryEventImpl value,
+          $Res Function(_$RefreshReputationHistoryEventImpl) then) =
+      __$$RefreshReputationHistoryEventImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int userId, int pageSize});
+}
+
+/// @nodoc
+class __$$RefreshReputationHistoryEventImplCopyWithImpl<$Res>
+    extends _$ReputationEventCopyWithImpl<$Res,
+        _$RefreshReputationHistoryEventImpl>
+    implements _$$RefreshReputationHistoryEventImplCopyWith<$Res> {
+  __$$RefreshReputationHistoryEventImplCopyWithImpl(
+      _$RefreshReputationHistoryEventImpl _value,
+      $Res Function(_$RefreshReputationHistoryEventImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? userId = null,
+    Object? pageSize = null,
+  }) {
+    return _then(_$RefreshReputationHistoryEventImpl(
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as int,
+      pageSize: null == pageSize
+          ? _value.pageSize
+          : pageSize // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$RefreshReputationHistoryEventImpl
+    implements _RefreshReputationHistoryEvent {
+  const _$RefreshReputationHistoryEventImpl(
+      {required this.userId, this.pageSize = 30});
+
+  @override
+  final int userId;
+  @override
+  @JsonKey()
+  final int pageSize;
+
+  @override
+  String toString() {
+    return 'ReputationEvent.refreshReputationHistory(userId: $userId, pageSize: $pageSize)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RefreshReputationHistoryEventImpl &&
+            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.pageSize, pageSize) ||
+                other.pageSize == pageSize));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, userId, pageSize);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RefreshReputationHistoryEventImplCopyWith<
+          _$RefreshReputationHistoryEventImpl>
+      get copyWith => __$$RefreshReputationHistoryEventImplCopyWithImpl<
+          _$RefreshReputationHistoryEventImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(int userId, int pageKey, int pageSize)
+        fetchNextPage,
+    required TResult Function(int userId, int pageSize)
+        refreshReputationHistory,
+  }) {
+    return refreshReputationHistory(userId, pageSize);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int userId, int pageKey, int pageSize)? fetchNextPage,
+    TResult? Function(int userId, int pageSize)? refreshReputationHistory,
+  }) {
+    return refreshReputationHistory?.call(userId, pageSize);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int userId, int pageKey, int pageSize)? fetchNextPage,
+    TResult Function(int userId, int pageSize)? refreshReputationHistory,
+    required TResult orElse(),
+  }) {
+    if (refreshReputationHistory != null) {
+      return refreshReputationHistory(userId, pageSize);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_FetchNextPageEvent value) fetchNextPage,
+    required TResult Function(_RefreshReputationHistoryEvent value)
+        refreshReputationHistory,
+  }) {
+    return refreshReputationHistory(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_FetchNextPageEvent value)? fetchNextPage,
+    TResult? Function(_RefreshReputationHistoryEvent value)?
+        refreshReputationHistory,
+  }) {
+    return refreshReputationHistory?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_FetchNextPageEvent value)? fetchNextPage,
+    TResult Function(_RefreshReputationHistoryEvent value)?
+        refreshReputationHistory,
+    required TResult orElse(),
+  }) {
+    if (refreshReputationHistory != null) {
+      return refreshReputationHistory(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _RefreshReputationHistoryEvent implements ReputationEvent {
+  const factory _RefreshReputationHistoryEvent(
+      {required final int userId,
+      final int pageSize}) = _$RefreshReputationHistoryEventImpl;
+
+  @override
+  int get userId;
+  @override
+  int get pageSize;
+  @override
+  @JsonKey(ignore: true)
+  _$$RefreshReputationHistoryEventImplCopyWith<
+          _$RefreshReputationHistoryEventImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

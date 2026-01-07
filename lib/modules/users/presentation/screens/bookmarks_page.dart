@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:stackoverflow_users_reputation/modules/users/presentation/bloc/user_bloc.dart';
 import 'package:stackoverflow_users_reputation/modules/users/presentation/bloc/user_event.dart';
 import 'package:stackoverflow_users_reputation/modules/users/presentation/bloc/user_state.dart';
 import 'package:stackoverflow_users_reputation/modules/users/presentation/widgets/user_list_item.dart';
+
+import '../../domain/entities/user_entity.dart';
 
 class BookmarksPage extends StatefulWidget {
   const BookmarksPage({super.key});
@@ -13,43 +16,29 @@ class BookmarksPage extends StatefulWidget {
 }
 
 class _BookmarksPageState extends State<BookmarksPage> {
-  final ScrollController _scrollController = ScrollController();
-
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_onScroll);
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  void _onScroll() {
-    // Bookmarks page doesn't support pagination
+    context.read<UserBloc>().add(const UserEvent.loadBookmarkedUsers());
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserBloc, UserState>(
-      builder: (context, state) {
-        return state.map(
-          initial: (_) => const Center(child: CircularProgressIndicator()),
-          loading: (_) => const Center(child: CircularProgressIndicator()),
-          loaded: (loadedState) {
-            final bookmarkedUsers =
-                loadedState.users.where((user) => user.isBookmarked).toList();
-            if (bookmarkedUsers.isEmpty) {
-              return const Center(child: Text('No bookmarked users'));
-            }
-            return ListView.builder(
-              controller: _scrollController,
-              itemCount: bookmarkedUsers.length,
-              itemBuilder: (context, index) {
+    return RefreshIndicator(
+      onRefresh: () async {
+        context.read<UserBloc>().add(const UserEvent.loadBookmarkedUsers());
+      },
+      child: BlocBuilder<UserBloc, UserState>(
+        builder: (context, state) {
+          return PagedListView<int, UserEntity>.separated(
+            state: state.pagingState,
+            fetchNextPage: () {
+              // Bookmarks don't support pagination, so this is a no-op
+            },
+            builderDelegate: PagedChildBuilderDelegate<UserEntity>(
+              itemBuilder: (context, user, index) {
                 return UserListItem(
-                  user: bookmarkedUsers[index],
+                  user: user,
                   onBookmarkToggle: (user) {
                     context.read<UserBloc>().add(
                       UserEvent.toggleBookmark(user),
@@ -62,13 +51,33 @@ class _BookmarksPageState extends State<BookmarksPage> {
                   },
                 );
               },
-            );
-          },
-          error:
-              (errorState) =>
-                  Center(child: Text('Error: ${errorState.message}')),
-        );
-      },
+              firstPageErrorIndicatorBuilder: (context) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Error: ${state.error}'),
+                      const SizedBox(height: 16),
+                      ElevatedButton(
+                        onPressed: () {
+                          context.read<UserBloc>().add(
+                            const UserEvent.loadBookmarkedUsers(),
+                          );
+                        },
+                        child: const Text('Retry'),
+                      ),
+                    ],
+                  ),
+                );
+              },
+              noItemsFoundIndicatorBuilder: (context) {
+                return const Center(child: Text('No bookmarked users'));
+              },
+            ),
+            separatorBuilder: (context, index) => const Divider(),
+          );
+        },
+      ),
     );
   }
 }

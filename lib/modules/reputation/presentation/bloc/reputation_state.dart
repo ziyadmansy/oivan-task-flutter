@@ -1,18 +1,42 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../../domain/entities/reputation_history_entity.dart';
 
-part 'reputation_state.freezed.dart';
+/// Wrapper around PagingState for reputation history
+class ReputationState {
+  final PagingState<int, ReputationHistoryEntity> pagingState;
 
-@freezed
-class ReputationState with _$ReputationState {
-  const factory ReputationState.initial() = _InitialState;
+  ReputationState({PagingState<int, ReputationHistoryEntity>? pagingState})
+    : pagingState = pagingState ?? PagingState<int, ReputationHistoryEntity>();
 
-  const factory ReputationState.loading() = _LoadingState;
+  factory ReputationState.initial() => ReputationState();
 
-  const factory ReputationState.loaded(
-    List<ReputationHistoryEntity> reputations,
-  ) = _LoadedState;
+  // Delegate PagingState properties
+  List<List<ReputationHistoryEntity>>? get pages => pagingState.pages;
+  List<int>? get keys => pagingState.keys;
+  bool get hasNextPage => pagingState.hasNextPage;
+  bool get isLoading => pagingState.isLoading;
+  dynamic get error => pagingState.error;
 
-  const factory ReputationState.error(String message) = _ErrorState;
+  ReputationState copyWith({
+    List<List<ReputationHistoryEntity>>? pages,
+    List<int>? keys,
+    bool? hasNextPage,
+    bool? isLoading,
+    dynamic error,
+  }) {
+    return ReputationState(
+      pagingState: PagingState<int, ReputationHistoryEntity>(
+        pages: pages ?? this.pages,
+        keys: keys ?? this.keys,
+        hasNextPage: hasNextPage ?? this.hasNextPage,
+        isLoading: isLoading ?? this.isLoading,
+        error: error ?? this.error,
+      ),
+    );
+  }
+
+  ReputationState reset() {
+    return ReputationState();
+  }
 }

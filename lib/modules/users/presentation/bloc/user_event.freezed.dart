@@ -18,52 +18,58 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$UserEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int page, int pageSize) loadUsers,
+    required TResult Function(int pageKey, int pageSize) fetchNextPage,
     required TResult Function() loadBookmarkedUsers,
     required TResult Function(UserEntity user) toggleBookmark,
     required TResult Function(bool showOnlyBookmarked) filterByBookmark,
+    required TResult Function(int pageSize) refreshUsers,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int page, int pageSize)? loadUsers,
+    TResult? Function(int pageKey, int pageSize)? fetchNextPage,
     TResult? Function()? loadBookmarkedUsers,
     TResult? Function(UserEntity user)? toggleBookmark,
     TResult? Function(bool showOnlyBookmarked)? filterByBookmark,
+    TResult? Function(int pageSize)? refreshUsers,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int page, int pageSize)? loadUsers,
+    TResult Function(int pageKey, int pageSize)? fetchNextPage,
     TResult Function()? loadBookmarkedUsers,
     TResult Function(UserEntity user)? toggleBookmark,
     TResult Function(bool showOnlyBookmarked)? filterByBookmark,
+    TResult Function(int pageSize)? refreshUsers,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_LoadUsersEvent value) loadUsers,
+    required TResult Function(_FetchNextPageEvent value) fetchNextPage,
     required TResult Function(_LoadBookmarkedUsersEvent value)
         loadBookmarkedUsers,
     required TResult Function(_ToggleBookmarkEvent value) toggleBookmark,
     required TResult Function(_FilterByBookmarkEvent value) filterByBookmark,
+    required TResult Function(_RefreshUsersEvent value) refreshUsers,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_LoadUsersEvent value)? loadUsers,
+    TResult? Function(_FetchNextPageEvent value)? fetchNextPage,
     TResult? Function(_LoadBookmarkedUsersEvent value)? loadBookmarkedUsers,
     TResult? Function(_ToggleBookmarkEvent value)? toggleBookmark,
     TResult? Function(_FilterByBookmarkEvent value)? filterByBookmark,
+    TResult? Function(_RefreshUsersEvent value)? refreshUsers,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_LoadUsersEvent value)? loadUsers,
+    TResult Function(_FetchNextPageEvent value)? fetchNextPage,
     TResult Function(_LoadBookmarkedUsersEvent value)? loadBookmarkedUsers,
     TResult Function(_ToggleBookmarkEvent value)? toggleBookmark,
     TResult Function(_FilterByBookmarkEvent value)? filterByBookmark,
+    TResult Function(_RefreshUsersEvent value)? refreshUsers,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -87,32 +93,32 @@ class _$UserEventCopyWithImpl<$Res, $Val extends UserEvent>
 }
 
 /// @nodoc
-abstract class _$$LoadUsersEventImplCopyWith<$Res> {
-  factory _$$LoadUsersEventImplCopyWith(_$LoadUsersEventImpl value,
-          $Res Function(_$LoadUsersEventImpl) then) =
-      __$$LoadUsersEventImplCopyWithImpl<$Res>;
+abstract class _$$FetchNextPageEventImplCopyWith<$Res> {
+  factory _$$FetchNextPageEventImplCopyWith(_$FetchNextPageEventImpl value,
+          $Res Function(_$FetchNextPageEventImpl) then) =
+      __$$FetchNextPageEventImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({int page, int pageSize});
+  $Res call({int pageKey, int pageSize});
 }
 
 /// @nodoc
-class __$$LoadUsersEventImplCopyWithImpl<$Res>
-    extends _$UserEventCopyWithImpl<$Res, _$LoadUsersEventImpl>
-    implements _$$LoadUsersEventImplCopyWith<$Res> {
-  __$$LoadUsersEventImplCopyWithImpl(
-      _$LoadUsersEventImpl _value, $Res Function(_$LoadUsersEventImpl) _then)
+class __$$FetchNextPageEventImplCopyWithImpl<$Res>
+    extends _$UserEventCopyWithImpl<$Res, _$FetchNextPageEventImpl>
+    implements _$$FetchNextPageEventImplCopyWith<$Res> {
+  __$$FetchNextPageEventImplCopyWithImpl(_$FetchNextPageEventImpl _value,
+      $Res Function(_$FetchNextPageEventImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? page = null,
+    Object? pageKey = null,
     Object? pageSize = null,
   }) {
-    return _then(_$LoadUsersEventImpl(
-      page: null == page
-          ? _value.page
-          : page // ignore: cast_nullable_to_non_nullable
+    return _then(_$FetchNextPageEventImpl(
+      pageKey: null == pageKey
+          ? _value.pageKey
+          : pageKey // ignore: cast_nullable_to_non_nullable
               as int,
       pageSize: null == pageSize
           ? _value.pageSize
@@ -124,74 +130,77 @@ class __$$LoadUsersEventImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$LoadUsersEventImpl implements _LoadUsersEvent {
-  const _$LoadUsersEventImpl({this.page = 1, this.pageSize = 30});
+class _$FetchNextPageEventImpl implements _FetchNextPageEvent {
+  const _$FetchNextPageEventImpl({this.pageKey = 1, this.pageSize = 30});
 
   @override
   @JsonKey()
-  final int page;
+  final int pageKey;
   @override
   @JsonKey()
   final int pageSize;
 
   @override
   String toString() {
-    return 'UserEvent.loadUsers(page: $page, pageSize: $pageSize)';
+    return 'UserEvent.fetchNextPage(pageKey: $pageKey, pageSize: $pageSize)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$LoadUsersEventImpl &&
-            (identical(other.page, page) || other.page == page) &&
+            other is _$FetchNextPageEventImpl &&
+            (identical(other.pageKey, pageKey) || other.pageKey == pageKey) &&
             (identical(other.pageSize, pageSize) ||
                 other.pageSize == pageSize));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, page, pageSize);
+  int get hashCode => Object.hash(runtimeType, pageKey, pageSize);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$LoadUsersEventImplCopyWith<_$LoadUsersEventImpl> get copyWith =>
-      __$$LoadUsersEventImplCopyWithImpl<_$LoadUsersEventImpl>(
+  _$$FetchNextPageEventImplCopyWith<_$FetchNextPageEventImpl> get copyWith =>
+      __$$FetchNextPageEventImplCopyWithImpl<_$FetchNextPageEventImpl>(
           this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int page, int pageSize) loadUsers,
+    required TResult Function(int pageKey, int pageSize) fetchNextPage,
     required TResult Function() loadBookmarkedUsers,
     required TResult Function(UserEntity user) toggleBookmark,
     required TResult Function(bool showOnlyBookmarked) filterByBookmark,
+    required TResult Function(int pageSize) refreshUsers,
   }) {
-    return loadUsers(page, pageSize);
+    return fetchNextPage(pageKey, pageSize);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int page, int pageSize)? loadUsers,
+    TResult? Function(int pageKey, int pageSize)? fetchNextPage,
     TResult? Function()? loadBookmarkedUsers,
     TResult? Function(UserEntity user)? toggleBookmark,
     TResult? Function(bool showOnlyBookmarked)? filterByBookmark,
+    TResult? Function(int pageSize)? refreshUsers,
   }) {
-    return loadUsers?.call(page, pageSize);
+    return fetchNextPage?.call(pageKey, pageSize);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int page, int pageSize)? loadUsers,
+    TResult Function(int pageKey, int pageSize)? fetchNextPage,
     TResult Function()? loadBookmarkedUsers,
     TResult Function(UserEntity user)? toggleBookmark,
     TResult Function(bool showOnlyBookmarked)? filterByBookmark,
+    TResult Function(int pageSize)? refreshUsers,
     required TResult orElse(),
   }) {
-    if (loadUsers != null) {
-      return loadUsers(page, pageSize);
+    if (fetchNextPage != null) {
+      return fetchNextPage(pageKey, pageSize);
     }
     return orElse();
   }
@@ -199,50 +208,53 @@ class _$LoadUsersEventImpl implements _LoadUsersEvent {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_LoadUsersEvent value) loadUsers,
+    required TResult Function(_FetchNextPageEvent value) fetchNextPage,
     required TResult Function(_LoadBookmarkedUsersEvent value)
         loadBookmarkedUsers,
     required TResult Function(_ToggleBookmarkEvent value) toggleBookmark,
     required TResult Function(_FilterByBookmarkEvent value) filterByBookmark,
+    required TResult Function(_RefreshUsersEvent value) refreshUsers,
   }) {
-    return loadUsers(this);
+    return fetchNextPage(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_LoadUsersEvent value)? loadUsers,
+    TResult? Function(_FetchNextPageEvent value)? fetchNextPage,
     TResult? Function(_LoadBookmarkedUsersEvent value)? loadBookmarkedUsers,
     TResult? Function(_ToggleBookmarkEvent value)? toggleBookmark,
     TResult? Function(_FilterByBookmarkEvent value)? filterByBookmark,
+    TResult? Function(_RefreshUsersEvent value)? refreshUsers,
   }) {
-    return loadUsers?.call(this);
+    return fetchNextPage?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_LoadUsersEvent value)? loadUsers,
+    TResult Function(_FetchNextPageEvent value)? fetchNextPage,
     TResult Function(_LoadBookmarkedUsersEvent value)? loadBookmarkedUsers,
     TResult Function(_ToggleBookmarkEvent value)? toggleBookmark,
     TResult Function(_FilterByBookmarkEvent value)? filterByBookmark,
+    TResult Function(_RefreshUsersEvent value)? refreshUsers,
     required TResult orElse(),
   }) {
-    if (loadUsers != null) {
-      return loadUsers(this);
+    if (fetchNextPage != null) {
+      return fetchNextPage(this);
     }
     return orElse();
   }
 }
 
-abstract class _LoadUsersEvent implements UserEvent {
-  const factory _LoadUsersEvent({final int page, final int pageSize}) =
-      _$LoadUsersEventImpl;
+abstract class _FetchNextPageEvent implements UserEvent {
+  const factory _FetchNextPageEvent({final int pageKey, final int pageSize}) =
+      _$FetchNextPageEventImpl;
 
-  int get page;
+  int get pageKey;
   int get pageSize;
   @JsonKey(ignore: true)
-  _$$LoadUsersEventImplCopyWith<_$LoadUsersEventImpl> get copyWith =>
+  _$$FetchNextPageEventImplCopyWith<_$FetchNextPageEventImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -287,10 +299,11 @@ class _$LoadBookmarkedUsersEventImpl implements _LoadBookmarkedUsersEvent {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int page, int pageSize) loadUsers,
+    required TResult Function(int pageKey, int pageSize) fetchNextPage,
     required TResult Function() loadBookmarkedUsers,
     required TResult Function(UserEntity user) toggleBookmark,
     required TResult Function(bool showOnlyBookmarked) filterByBookmark,
+    required TResult Function(int pageSize) refreshUsers,
   }) {
     return loadBookmarkedUsers();
   }
@@ -298,10 +311,11 @@ class _$LoadBookmarkedUsersEventImpl implements _LoadBookmarkedUsersEvent {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int page, int pageSize)? loadUsers,
+    TResult? Function(int pageKey, int pageSize)? fetchNextPage,
     TResult? Function()? loadBookmarkedUsers,
     TResult? Function(UserEntity user)? toggleBookmark,
     TResult? Function(bool showOnlyBookmarked)? filterByBookmark,
+    TResult? Function(int pageSize)? refreshUsers,
   }) {
     return loadBookmarkedUsers?.call();
   }
@@ -309,10 +323,11 @@ class _$LoadBookmarkedUsersEventImpl implements _LoadBookmarkedUsersEvent {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int page, int pageSize)? loadUsers,
+    TResult Function(int pageKey, int pageSize)? fetchNextPage,
     TResult Function()? loadBookmarkedUsers,
     TResult Function(UserEntity user)? toggleBookmark,
     TResult Function(bool showOnlyBookmarked)? filterByBookmark,
+    TResult Function(int pageSize)? refreshUsers,
     required TResult orElse(),
   }) {
     if (loadBookmarkedUsers != null) {
@@ -324,11 +339,12 @@ class _$LoadBookmarkedUsersEventImpl implements _LoadBookmarkedUsersEvent {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_LoadUsersEvent value) loadUsers,
+    required TResult Function(_FetchNextPageEvent value) fetchNextPage,
     required TResult Function(_LoadBookmarkedUsersEvent value)
         loadBookmarkedUsers,
     required TResult Function(_ToggleBookmarkEvent value) toggleBookmark,
     required TResult Function(_FilterByBookmarkEvent value) filterByBookmark,
+    required TResult Function(_RefreshUsersEvent value) refreshUsers,
   }) {
     return loadBookmarkedUsers(this);
   }
@@ -336,10 +352,11 @@ class _$LoadBookmarkedUsersEventImpl implements _LoadBookmarkedUsersEvent {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_LoadUsersEvent value)? loadUsers,
+    TResult? Function(_FetchNextPageEvent value)? fetchNextPage,
     TResult? Function(_LoadBookmarkedUsersEvent value)? loadBookmarkedUsers,
     TResult? Function(_ToggleBookmarkEvent value)? toggleBookmark,
     TResult? Function(_FilterByBookmarkEvent value)? filterByBookmark,
+    TResult? Function(_RefreshUsersEvent value)? refreshUsers,
   }) {
     return loadBookmarkedUsers?.call(this);
   }
@@ -347,10 +364,11 @@ class _$LoadBookmarkedUsersEventImpl implements _LoadBookmarkedUsersEvent {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_LoadUsersEvent value)? loadUsers,
+    TResult Function(_FetchNextPageEvent value)? fetchNextPage,
     TResult Function(_LoadBookmarkedUsersEvent value)? loadBookmarkedUsers,
     TResult Function(_ToggleBookmarkEvent value)? toggleBookmark,
     TResult Function(_FilterByBookmarkEvent value)? filterByBookmark,
+    TResult Function(_RefreshUsersEvent value)? refreshUsers,
     required TResult orElse(),
   }) {
     if (loadBookmarkedUsers != null) {
@@ -429,10 +447,11 @@ class _$ToggleBookmarkEventImpl implements _ToggleBookmarkEvent {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int page, int pageSize) loadUsers,
+    required TResult Function(int pageKey, int pageSize) fetchNextPage,
     required TResult Function() loadBookmarkedUsers,
     required TResult Function(UserEntity user) toggleBookmark,
     required TResult Function(bool showOnlyBookmarked) filterByBookmark,
+    required TResult Function(int pageSize) refreshUsers,
   }) {
     return toggleBookmark(user);
   }
@@ -440,10 +459,11 @@ class _$ToggleBookmarkEventImpl implements _ToggleBookmarkEvent {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int page, int pageSize)? loadUsers,
+    TResult? Function(int pageKey, int pageSize)? fetchNextPage,
     TResult? Function()? loadBookmarkedUsers,
     TResult? Function(UserEntity user)? toggleBookmark,
     TResult? Function(bool showOnlyBookmarked)? filterByBookmark,
+    TResult? Function(int pageSize)? refreshUsers,
   }) {
     return toggleBookmark?.call(user);
   }
@@ -451,10 +471,11 @@ class _$ToggleBookmarkEventImpl implements _ToggleBookmarkEvent {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int page, int pageSize)? loadUsers,
+    TResult Function(int pageKey, int pageSize)? fetchNextPage,
     TResult Function()? loadBookmarkedUsers,
     TResult Function(UserEntity user)? toggleBookmark,
     TResult Function(bool showOnlyBookmarked)? filterByBookmark,
+    TResult Function(int pageSize)? refreshUsers,
     required TResult orElse(),
   }) {
     if (toggleBookmark != null) {
@@ -466,11 +487,12 @@ class _$ToggleBookmarkEventImpl implements _ToggleBookmarkEvent {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_LoadUsersEvent value) loadUsers,
+    required TResult Function(_FetchNextPageEvent value) fetchNextPage,
     required TResult Function(_LoadBookmarkedUsersEvent value)
         loadBookmarkedUsers,
     required TResult Function(_ToggleBookmarkEvent value) toggleBookmark,
     required TResult Function(_FilterByBookmarkEvent value) filterByBookmark,
+    required TResult Function(_RefreshUsersEvent value) refreshUsers,
   }) {
     return toggleBookmark(this);
   }
@@ -478,10 +500,11 @@ class _$ToggleBookmarkEventImpl implements _ToggleBookmarkEvent {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_LoadUsersEvent value)? loadUsers,
+    TResult? Function(_FetchNextPageEvent value)? fetchNextPage,
     TResult? Function(_LoadBookmarkedUsersEvent value)? loadBookmarkedUsers,
     TResult? Function(_ToggleBookmarkEvent value)? toggleBookmark,
     TResult? Function(_FilterByBookmarkEvent value)? filterByBookmark,
+    TResult? Function(_RefreshUsersEvent value)? refreshUsers,
   }) {
     return toggleBookmark?.call(this);
   }
@@ -489,10 +512,11 @@ class _$ToggleBookmarkEventImpl implements _ToggleBookmarkEvent {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_LoadUsersEvent value)? loadUsers,
+    TResult Function(_FetchNextPageEvent value)? fetchNextPage,
     TResult Function(_LoadBookmarkedUsersEvent value)? loadBookmarkedUsers,
     TResult Function(_ToggleBookmarkEvent value)? toggleBookmark,
     TResult Function(_FilterByBookmarkEvent value)? filterByBookmark,
+    TResult Function(_RefreshUsersEvent value)? refreshUsers,
     required TResult orElse(),
   }) {
     if (toggleBookmark != null) {
@@ -579,10 +603,11 @@ class _$FilterByBookmarkEventImpl implements _FilterByBookmarkEvent {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int page, int pageSize) loadUsers,
+    required TResult Function(int pageKey, int pageSize) fetchNextPage,
     required TResult Function() loadBookmarkedUsers,
     required TResult Function(UserEntity user) toggleBookmark,
     required TResult Function(bool showOnlyBookmarked) filterByBookmark,
+    required TResult Function(int pageSize) refreshUsers,
   }) {
     return filterByBookmark(showOnlyBookmarked);
   }
@@ -590,10 +615,11 @@ class _$FilterByBookmarkEventImpl implements _FilterByBookmarkEvent {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int page, int pageSize)? loadUsers,
+    TResult? Function(int pageKey, int pageSize)? fetchNextPage,
     TResult? Function()? loadBookmarkedUsers,
     TResult? Function(UserEntity user)? toggleBookmark,
     TResult? Function(bool showOnlyBookmarked)? filterByBookmark,
+    TResult? Function(int pageSize)? refreshUsers,
   }) {
     return filterByBookmark?.call(showOnlyBookmarked);
   }
@@ -601,10 +627,11 @@ class _$FilterByBookmarkEventImpl implements _FilterByBookmarkEvent {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int page, int pageSize)? loadUsers,
+    TResult Function(int pageKey, int pageSize)? fetchNextPage,
     TResult Function()? loadBookmarkedUsers,
     TResult Function(UserEntity user)? toggleBookmark,
     TResult Function(bool showOnlyBookmarked)? filterByBookmark,
+    TResult Function(int pageSize)? refreshUsers,
     required TResult orElse(),
   }) {
     if (filterByBookmark != null) {
@@ -616,11 +643,12 @@ class _$FilterByBookmarkEventImpl implements _FilterByBookmarkEvent {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_LoadUsersEvent value) loadUsers,
+    required TResult Function(_FetchNextPageEvent value) fetchNextPage,
     required TResult Function(_LoadBookmarkedUsersEvent value)
         loadBookmarkedUsers,
     required TResult Function(_ToggleBookmarkEvent value) toggleBookmark,
     required TResult Function(_FilterByBookmarkEvent value) filterByBookmark,
+    required TResult Function(_RefreshUsersEvent value) refreshUsers,
   }) {
     return filterByBookmark(this);
   }
@@ -628,10 +656,11 @@ class _$FilterByBookmarkEventImpl implements _FilterByBookmarkEvent {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_LoadUsersEvent value)? loadUsers,
+    TResult? Function(_FetchNextPageEvent value)? fetchNextPage,
     TResult? Function(_LoadBookmarkedUsersEvent value)? loadBookmarkedUsers,
     TResult? Function(_ToggleBookmarkEvent value)? toggleBookmark,
     TResult? Function(_FilterByBookmarkEvent value)? filterByBookmark,
+    TResult? Function(_RefreshUsersEvent value)? refreshUsers,
   }) {
     return filterByBookmark?.call(this);
   }
@@ -639,10 +668,11 @@ class _$FilterByBookmarkEventImpl implements _FilterByBookmarkEvent {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_LoadUsersEvent value)? loadUsers,
+    TResult Function(_FetchNextPageEvent value)? fetchNextPage,
     TResult Function(_LoadBookmarkedUsersEvent value)? loadBookmarkedUsers,
     TResult Function(_ToggleBookmarkEvent value)? toggleBookmark,
     TResult Function(_FilterByBookmarkEvent value)? filterByBookmark,
+    TResult Function(_RefreshUsersEvent value)? refreshUsers,
     required TResult orElse(),
   }) {
     if (filterByBookmark != null) {
@@ -660,4 +690,160 @@ abstract class _FilterByBookmarkEvent implements UserEvent {
   @JsonKey(ignore: true)
   _$$FilterByBookmarkEventImplCopyWith<_$FilterByBookmarkEventImpl>
       get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$RefreshUsersEventImplCopyWith<$Res> {
+  factory _$$RefreshUsersEventImplCopyWith(_$RefreshUsersEventImpl value,
+          $Res Function(_$RefreshUsersEventImpl) then) =
+      __$$RefreshUsersEventImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int pageSize});
+}
+
+/// @nodoc
+class __$$RefreshUsersEventImplCopyWithImpl<$Res>
+    extends _$UserEventCopyWithImpl<$Res, _$RefreshUsersEventImpl>
+    implements _$$RefreshUsersEventImplCopyWith<$Res> {
+  __$$RefreshUsersEventImplCopyWithImpl(_$RefreshUsersEventImpl _value,
+      $Res Function(_$RefreshUsersEventImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? pageSize = null,
+  }) {
+    return _then(_$RefreshUsersEventImpl(
+      pageSize: null == pageSize
+          ? _value.pageSize
+          : pageSize // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$RefreshUsersEventImpl implements _RefreshUsersEvent {
+  const _$RefreshUsersEventImpl({this.pageSize = 30});
+
+  @override
+  @JsonKey()
+  final int pageSize;
+
+  @override
+  String toString() {
+    return 'UserEvent.refreshUsers(pageSize: $pageSize)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RefreshUsersEventImpl &&
+            (identical(other.pageSize, pageSize) ||
+                other.pageSize == pageSize));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, pageSize);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RefreshUsersEventImplCopyWith<_$RefreshUsersEventImpl> get copyWith =>
+      __$$RefreshUsersEventImplCopyWithImpl<_$RefreshUsersEventImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(int pageKey, int pageSize) fetchNextPage,
+    required TResult Function() loadBookmarkedUsers,
+    required TResult Function(UserEntity user) toggleBookmark,
+    required TResult Function(bool showOnlyBookmarked) filterByBookmark,
+    required TResult Function(int pageSize) refreshUsers,
+  }) {
+    return refreshUsers(pageSize);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int pageKey, int pageSize)? fetchNextPage,
+    TResult? Function()? loadBookmarkedUsers,
+    TResult? Function(UserEntity user)? toggleBookmark,
+    TResult? Function(bool showOnlyBookmarked)? filterByBookmark,
+    TResult? Function(int pageSize)? refreshUsers,
+  }) {
+    return refreshUsers?.call(pageSize);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int pageKey, int pageSize)? fetchNextPage,
+    TResult Function()? loadBookmarkedUsers,
+    TResult Function(UserEntity user)? toggleBookmark,
+    TResult Function(bool showOnlyBookmarked)? filterByBookmark,
+    TResult Function(int pageSize)? refreshUsers,
+    required TResult orElse(),
+  }) {
+    if (refreshUsers != null) {
+      return refreshUsers(pageSize);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_FetchNextPageEvent value) fetchNextPage,
+    required TResult Function(_LoadBookmarkedUsersEvent value)
+        loadBookmarkedUsers,
+    required TResult Function(_ToggleBookmarkEvent value) toggleBookmark,
+    required TResult Function(_FilterByBookmarkEvent value) filterByBookmark,
+    required TResult Function(_RefreshUsersEvent value) refreshUsers,
+  }) {
+    return refreshUsers(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_FetchNextPageEvent value)? fetchNextPage,
+    TResult? Function(_LoadBookmarkedUsersEvent value)? loadBookmarkedUsers,
+    TResult? Function(_ToggleBookmarkEvent value)? toggleBookmark,
+    TResult? Function(_FilterByBookmarkEvent value)? filterByBookmark,
+    TResult? Function(_RefreshUsersEvent value)? refreshUsers,
+  }) {
+    return refreshUsers?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_FetchNextPageEvent value)? fetchNextPage,
+    TResult Function(_LoadBookmarkedUsersEvent value)? loadBookmarkedUsers,
+    TResult Function(_ToggleBookmarkEvent value)? toggleBookmark,
+    TResult Function(_FilterByBookmarkEvent value)? filterByBookmark,
+    TResult Function(_RefreshUsersEvent value)? refreshUsers,
+    required TResult orElse(),
+  }) {
+    if (refreshUsers != null) {
+      return refreshUsers(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _RefreshUsersEvent implements UserEvent {
+  const factory _RefreshUsersEvent({final int pageSize}) =
+      _$RefreshUsersEventImpl;
+
+  int get pageSize;
+  @JsonKey(ignore: true)
+  _$$RefreshUsersEventImplCopyWith<_$RefreshUsersEventImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

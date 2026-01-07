@@ -1,19 +1,47 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../../domain/entities/user_entity.dart';
 
-part 'user_state.freezed.dart';
+/// Wrapper around PagingState to add custom properties
+class UserState {
+  final PagingState<int, UserEntity> pagingState;
+  final bool showOnlyBookmarked;
 
-@freezed
-class UserState with _$UserState {
-  const factory UserState.initial() = _InitialState;
+  UserState({
+    PagingState<int, UserEntity>? pagingState,
+    this.showOnlyBookmarked = false,
+  }) : pagingState = pagingState ?? PagingState<int, UserEntity>();
 
-  const factory UserState.loading() = _LoadingState;
+  factory UserState.initial() => UserState();
 
-  const factory UserState.loaded({
-    required List<UserEntity> users,
-    @Default(false) bool showOnlyBookmarked,
-  }) = _LoadedState;
+  // Delegate PagingState properties
+  List<List<UserEntity>>? get pages => pagingState.pages;
+  List<int>? get keys => pagingState.keys;
+  bool get hasNextPage => pagingState.hasNextPage;
+  bool get isLoading => pagingState.isLoading;
+  dynamic get error => pagingState.error;
 
-  const factory UserState.error(String message) = _ErrorState;
+  UserState copyWith({
+    List<List<UserEntity>>? pages,
+    List<int>? keys,
+    bool? hasNextPage,
+    bool? isLoading,
+    dynamic error,
+    bool? showOnlyBookmarked,
+  }) {
+    return UserState(
+      pagingState: PagingState<int, UserEntity>(
+        pages: pages ?? this.pages,
+        keys: keys ?? this.keys,
+        hasNextPage: hasNextPage ?? this.hasNextPage,
+        isLoading: isLoading ?? this.isLoading,
+        error: error ?? this.error,
+      ),
+      showOnlyBookmarked: showOnlyBookmarked ?? this.showOnlyBookmarked,
+    );
+  }
+
+  UserState reset() {
+    return UserState(showOnlyBookmarked: showOnlyBookmarked);
+  }
 }

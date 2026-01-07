@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:stackoverflow_users_reputation/modules/users/domain/entities/user_entity.dart';
 import 'package:stackoverflow_users_reputation/modules/users/presentation/widgets/user_list_item.dart';
 
+import '../../domain/entities/reputation_history_entity.dart';
 import '../bloc/reputation_bloc.dart';
 import '../bloc/reputation_event.dart';
 import '../bloc/reputation_state.dart';
@@ -18,44 +20,12 @@ class ReputationDetailScreen extends StatefulWidget {
 }
 
 class _ReputationDetailScreenState extends State<ReputationDetailScreen> {
-  final ScrollController _scrollController = ScrollController();
-  int _currentPage = 1;
-  bool _isLoadingMore = false;
-
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_onScroll);
     context.read<ReputationBloc>().add(
-      ReputationEvent.loadReputationHistory(
-        userId: widget.user.userId,
-        page: 1,
-        pageSize: 30,
-      ),
+      ReputationEvent.fetchNextPage(userId: widget.user.userId, pageKey: 1),
     );
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  void _onScroll() {
-    if (_scrollController.position.pixels ==
-        _scrollController.position.maxScrollExtent) {
-      if (!_isLoadingMore) {
-        _isLoadingMore = true;
-        _currentPage++;
-        context.read<ReputationBloc>().add(
-          ReputationEvent.loadReputationHistory(
-            userId: widget.user.userId,
-            page: _currentPage,
-            pageSize: 30,
-          ),
-        );
-      }
-    }
   }
 
   @override
@@ -71,35 +41,31 @@ class _ReputationDetailScreenState extends State<ReputationDetailScreen> {
           ),
           const Divider(),
           Expanded(
-            child: BlocBuilder<ReputationBloc, ReputationState>(
-              builder: (context, state) {
-                return state.when(
-                  initial:
-                      () => const Center(child: CircularProgressIndicator()),
-                  loading: () {
-                    if (_currentPage == 1) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else {
-                      return const SizedBox();
-                    }
-                  },
-                  loaded: (reputations) {
-                    if (reputations.isEmpty) {
-                      return const Center(
-                        child: Text('No reputation history found'),
+            child: RefreshIndicator(
+              onRefresh: () async {
+                context.read<ReputationBloc>().add(
+                  ReputationEvent.refreshReputationHistory(
+                    userId: widget.user.userId,
+                  ),
+                );
+              },
+              child: BlocBuilder<ReputationBloc, ReputationState>(
+                builder: (context, state) {
+                  return PagedListView<int, ReputationHistoryEntity>(
+                    state: state.pagingState,
+                    fetchNextPage: () {
+                      final nextPageKey = (state.keys?.last ?? 0) + 1;
+                      context.read<ReputationBloc>().add(
+                        ReputationEvent.fetchNextPage(
+                          userId: widget.user.userId,
+                          pageKey: nextPageKey,
+                        ),
                       );
-                    }
-                    return ListView.builder(
-                      controller: _scrollController,
-                      itemCount: reputations.length + (_isLoadingMore ? 1 : 0),
-                      itemBuilder: (context, index) {
-                        if (index == reputations.length) {
-                          return const Padding(
-                            padding: EdgeInsets.all(16.0),
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                        final reputation = reputations[index];
+                    },
+                    builderDelegate: PagedChildBuilderDelegate<
+                      ReputationHistoryEntity
+                    >(
+                      itemBuilder: (context, reputation, index) {
                         return Card(
                           margin: const EdgeInsets.symmetric(
                             horizontal: 12,
@@ -141,13 +107,60 @@ class _ReputationDetailScreenState extends State<ReputationDetailScreen> {
                           ),
                         );
                       },
-                    );
-                  },
-                  error: (errorMessage) {
-                    return Center(child: Text('Error: $errorMessage'));
-                  },
-                );
-              },
+                      firstPageErrorIndicatorBuilder: (context) {
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('Error: ${state.error}'),
+                              const SizedBox(height: 16),
+                              ElevatedButton(
+                                onPressed: () {
+                                  context.read<ReputationBloc>().add(
+                                    ReputationEvent.refreshReputationHistory(
+                                      userId: widget.user.userId,
+                                    ),
+                                  );
+                                },
+                                child: const Text('Retry'),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      newPageErrorIndicatorBuilder: (context) {
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('Error: ${state.error}'),
+                              const SizedBox(height: 16),
+                              ElevatedButton(
+                                onPressed: () {
+                                  final nextPageKey =
+                                      (state.keys?.last ?? 0) + 1;
+                                  context.read<ReputationBloc>().add(
+                                    ReputationEvent.fetchNextPage(
+                                      userId: widget.user.userId,
+                                      pageKey: nextPageKey,
+                                    ),
+                                  );
+                                },
+                                child: const Text('Retry'),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      noItemsFoundIndicatorBuilder: (context) {
+                        return const Center(
+                          child: Text('No reputation history found'),
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         ],

@@ -4,9 +4,14 @@ part 'reputation_event.freezed.dart';
 
 @freezed
 class ReputationEvent with _$ReputationEvent {
-  const factory ReputationEvent.loadReputationHistory({
+  const factory ReputationEvent.fetchNextPage({
     required int userId,
-    @Default(1) int page,
+    @Default(1) int pageKey,
     @Default(30) int pageSize,
-  }) = _LoadReputationHistoryEvent;
+  }) = _FetchNextPageEvent;
+
+  const factory ReputationEvent.refreshReputationHistory({
+    required int userId,
+    @Default(30) int pageSize,
+  }) = _RefreshReputationHistoryEvent;
 }

@@ -6,10 +6,10 @@ part 'user_event.freezed.dart';
 
 @freezed
 class UserEvent with _$UserEvent {
-  const factory UserEvent.loadUsers({
-    @Default(1) int page,
+  const factory UserEvent.fetchNextPage({
+    @Default(1) int pageKey,
     @Default(30) int pageSize,
-  }) = _LoadUsersEvent;
+  }) = _FetchNextPageEvent;
 
   const factory UserEvent.loadBookmarkedUsers() = _LoadBookmarkedUsersEvent;
 
@@ -18,4 +18,7 @@ class UserEvent with _$UserEvent {
 
   const factory UserEvent.filterByBookmark({required bool showOnlyBookmarked}) =
       _FilterByBookmarkEvent;
+
+  const factory UserEvent.refreshUsers({@Default(30) int pageSize}) =
+      _RefreshUsersEvent;
 }

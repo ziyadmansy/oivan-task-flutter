@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:stackoverflow_users_reputation/modules/users/presentation/bloc/user_event.dart';
 import 'package:stackoverflow_users_reputation/modules/users/presentation/bloc/user_state.dart';
 
+import '../../domain/entities/user_entity.dart';
 import '../bloc/user_bloc.dart';
 import '../widgets/user_list_item.dart';
 
@@ -14,95 +16,88 @@ class UsersPage extends StatefulWidget {
 }
 
 class _UsersPageState extends State<UsersPage> {
-  final ScrollController _scrollController = ScrollController();
-  int _currentPage = 1;
-  bool _isLoadingMore = false;
-
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_onScroll);
-    context.read<UserBloc>().add(UserEvent.loadUsers(page: 1, pageSize: 30));
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  void _onScroll() {
-    if (_scrollController.position.pixels ==
-        _scrollController.position.maxScrollExtent) {
-      if (!_isLoadingMore) {
-        _isLoadingMore = true;
-        _currentPage++;
-        context.read<UserBloc>().add(
-          UserEvent.loadUsers(page: _currentPage, pageSize: 30),
-        );
-      }
-    }
+    context.read<UserBloc>().add(const UserEvent.fetchNextPage(pageKey: 1));
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<UserBloc, UserState>(
-      listener: (context, state) {
-        state.map(
-          initial: (_) {},
-          loading: (_) {},
-          loaded: (_) {
-            _isLoadingMore = false;
-          },
-          error: (_) {},
-        );
+    return RefreshIndicator(
+      onRefresh: () async {
+        context.read<UserBloc>().add(const UserEvent.refreshUsers());
       },
       child: BlocBuilder<UserBloc, UserState>(
         builder: (context, state) {
-          return state.map(
-            initial: (_) => const Center(child: CircularProgressIndicator()),
-            loading: (_) {
-              if (_currentPage == 1) {
-                return const Center(child: CircularProgressIndicator());
-              } else {
-                return const SizedBox();
-              }
-            },
-            loaded: (loadedState) {
-              final users = loadedState.users;
-              if (users.isEmpty) {
-                return const Center(child: Text('No users found'));
-              }
-              return ListView.separated(
-                controller: _scrollController,
-                itemCount: users.length + (_isLoadingMore ? 1 : 0),
-                separatorBuilder: (context, index) => const Divider(),
-                itemBuilder: (context, index) {
-                  if (index == users.length) {
-                    return const Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                  return UserListItem(
-                    user: users[index],
-                    onBookmarkToggle: (user) {
-                      context.read<UserBloc>().add(
-                        UserEvent.toggleBookmark(user),
-                      );
-                    },
-                    onUserTap: (user) {
-                      Navigator.of(
-                        context,
-                      ).pushNamed('/reputation', arguments: user);
-                    },
-                  );
-                },
+          return PagedListView<int, UserEntity>.separated(
+            state: state.pagingState,
+            fetchNextPage: () {
+              final nextPageKey = (state.keys?.last ?? 0) + 1;
+              context.read<UserBloc>().add(
+                UserEvent.fetchNextPage(pageKey: nextPageKey),
               );
             },
-            error:
-                (errorState) =>
-                    Center(child: Text('Error: ${errorState.message}')),
+            builderDelegate: PagedChildBuilderDelegate<UserEntity>(
+              itemBuilder: (context, user, index) {
+                return UserListItem(
+                  user: user,
+                  onBookmarkToggle: (user) {
+                    context.read<UserBloc>().add(
+                      UserEvent.toggleBookmark(user),
+                    );
+                  },
+                  onUserTap: (user) {
+                    Navigator.of(
+                      context,
+                    ).pushNamed('/reputation', arguments: user);
+                  },
+                );
+              },
+              firstPageErrorIndicatorBuilder: (context) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Error: ${state.error}'),
+                      const SizedBox(height: 16),
+                      ElevatedButton(
+                        onPressed: () {
+                          context.read<UserBloc>().add(
+                            const UserEvent.refreshUsers(),
+                          );
+                        },
+                        child: const Text('Retry'),
+                      ),
+                    ],
+                  ),
+                );
+              },
+              newPageErrorIndicatorBuilder: (context) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Error: ${state.error}'),
+                      const SizedBox(height: 16),
+                      ElevatedButton(
+                        onPressed: () {
+                          final nextPageKey = (state.keys?.last ?? 0) + 1;
+                          context.read<UserBloc>().add(
+                            UserEvent.fetchNextPage(pageKey: nextPageKey),
+                          );
+                        },
+                        child: const Text('Retry'),
+                      ),
+                    ],
+                  ),
+                );
+              },
+              noItemsFoundIndicatorBuilder: (context) {
+                return const Center(child: Text('No users found'));
+              },
+            ),
+            separatorBuilder: (context, index) => const Divider(),
           );
         },
       ),
