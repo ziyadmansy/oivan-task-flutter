@@ -1,7 +1,8 @@
 import 'package:equatable/equatable.dart';
+import '../enums/reputation_history_type.dart';
 
 class ReputationHistoryEntity extends Equatable {
-  final String reputationHistoryType;
+  final ReputationHistoryType reputationHistoryType;
   final int userId;
   final int reputationChange;
   final DateTime createdAt;

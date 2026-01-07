@@ -1,3 +1,4 @@
+import '../../domain/entities/badge_counts_entity.dart';
 import '../../domain/entities/user_entity.dart';
 import '../../domain/repositories/user_repository.dart';
 import '../datasources/user_local_data_source.dart';
@@ -34,7 +35,16 @@ class UserRepositoryImpl implements UserRepository {
           displayName: model.displayName,
           profileImage: model.profileImage,
           reputation: model.reputation,
-          badgeCount: model.badgeCount,
+          badgeCounts:
+              model.badgeCounts != null
+                  ? BadgeCountsEntity(
+                    bronze: model.badgeCounts!.bronze,
+                    silver: model.badgeCounts!.silver,
+                    gold: model.badgeCounts!.gold,
+                  )
+                  : null,
+          location: model.location,
+          websiteUrl: model.websiteUrl,
           isBookmarked: isBookmarked,
         );
       }),

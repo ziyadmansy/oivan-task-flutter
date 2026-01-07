@@ -1,11 +1,14 @@
 import 'package:equatable/equatable.dart';
+import 'badge_counts_entity.dart';
 
 class UserEntity extends Equatable {
   final int userId;
   final String displayName;
   final String? profileImage;
   final int reputation;
-  final int? badgeCount;
+  final BadgeCountsEntity? badgeCounts;
+  final String? location;
+  final String? websiteUrl;
   final bool isBookmarked;
 
   const UserEntity({
@@ -13,7 +16,9 @@ class UserEntity extends Equatable {
     required this.displayName,
     this.profileImage,
     required this.reputation,
-    this.badgeCount,
+    this.badgeCounts,
+    this.location,
+    this.websiteUrl,
     required this.isBookmarked,
   });
 
@@ -22,7 +27,9 @@ class UserEntity extends Equatable {
     String? displayName,
     String? profileImage,
     int? reputation,
-    int? badgeCount,
+    BadgeCountsEntity? badgeCounts,
+    String? location,
+    String? websiteUrl,
     bool? isBookmarked,
   }) {
     return UserEntity(
@@ -30,7 +37,9 @@ class UserEntity extends Equatable {
       displayName: displayName ?? this.displayName,
       profileImage: profileImage ?? this.profileImage,
       reputation: reputation ?? this.reputation,
-      badgeCount: badgeCount ?? this.badgeCount,
+      badgeCounts: badgeCounts ?? this.badgeCounts,
+      location: location ?? this.location,
+      websiteUrl: websiteUrl ?? this.websiteUrl,
       isBookmarked: isBookmarked ?? this.isBookmarked,
     );
   }
@@ -41,7 +50,9 @@ class UserEntity extends Equatable {
     displayName,
     profileImage,
     reputation,
-    badgeCount,
+    badgeCounts,
+    location,
+    websiteUrl,
     isBookmarked,
   ];
 }

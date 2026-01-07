@@ -1,4 +1,5 @@
 import '../../domain/entities/reputation_history_entity.dart';
+import '../../domain/enums/reputation_history_type.dart';
 import '../../domain/repositories/reputation_repository.dart';
 import '../datasources/reputation_remote_data_source.dart';
 
@@ -22,7 +23,9 @@ class ReputationRepositoryImpl implements ReputationRepository {
     return models
         .map(
           (model) => ReputationHistoryEntity(
-            reputationHistoryType: model.reputationHistoryType,
+            reputationHistoryType: ReputationHistoryType.fromString(
+              model.reputationHistoryType,
+            ),
             userId: model.userId,
             reputationChange: model.reputationChange,
             createdAt: DateTime.fromMillisecondsSinceEpoch(

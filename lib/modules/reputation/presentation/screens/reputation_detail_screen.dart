@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:stackoverflow_users_reputation/modules/users/domain/entities/user_entity.dart';
+import 'package:stackoverflow_users_reputation/modules/users/presentation/widgets/user_list_item.dart';
 
 import '../bloc/reputation_bloc.dart';
 import '../bloc/reputation_event.dart';
@@ -10,8 +11,7 @@ import '../bloc/reputation_state.dart';
 class ReputationDetailScreen extends StatefulWidget {
   final UserEntity user;
 
-  const ReputationDetailScreen({Key? key, required this.user})
-    : super(key: key);
+  const ReputationDetailScreen({super.key, required this.user});
 
   @override
   State<ReputationDetailScreen> createState() => _ReputationDetailScreenState();
@@ -64,46 +64,10 @@ class _ReputationDetailScreenState extends State<ReputationDetailScreen> {
       appBar: AppBar(title: Text('${widget.user.displayName}\'s Reputation')),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              children: [
-                CircleAvatar(
-                  backgroundImage:
-                      widget.user.profileImage != null
-                          ? NetworkImage(widget.user.profileImage!)
-                          : null,
-                  radius: 30,
-                  child:
-                      widget.user.profileImage == null
-                          ? const Icon(Icons.person)
-                          : null,
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.user.displayName,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'Total Reputation: ${widget.user.reputation}',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+          UserListItem(
+            user: widget.user,
+            onBookmarkToggle: null,
+            onUserTap: null,
           ),
           const Divider(),
           Expanded(
@@ -142,7 +106,10 @@ class _ReputationDetailScreenState extends State<ReputationDetailScreen> {
                             vertical: 6,
                           ),
                           child: ListTile(
-                            title: Text(reputation.reputationHistoryType),
+                            title: Text(
+                              reputation.reputationHistoryType
+                                  .toDisplayString(),
+                            ),
                             subtitle: Text(
                               DateFormat(
                                 'MMM dd, yyyy HH:mm',

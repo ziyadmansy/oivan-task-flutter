@@ -27,8 +27,12 @@ mixin _$UserModel {
   @JsonKey(name: 'profile_image')
   String? get profileImage => throw _privateConstructorUsedError;
   int get reputation => throw _privateConstructorUsedError;
-  @JsonKey(name: 'badge_count')
-  int? get badgeCount => throw _privateConstructorUsedError;
+  @JsonKey(name: 'badge_counts')
+  BadgeCountsModel? get badgeCounts => throw _privateConstructorUsedError;
+  @JsonKey(name: 'location')
+  String? get location => throw _privateConstructorUsedError;
+  @JsonKey(name: 'website_url')
+  String? get websiteUrl => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -46,7 +50,11 @@ abstract class $UserModelCopyWith<$Res> {
       @JsonKey(name: 'display_name') String displayName,
       @JsonKey(name: 'profile_image') String? profileImage,
       int reputation,
-      @JsonKey(name: 'badge_count') int? badgeCount});
+      @JsonKey(name: 'badge_counts') BadgeCountsModel? badgeCounts,
+      @JsonKey(name: 'location') String? location,
+      @JsonKey(name: 'website_url') String? websiteUrl});
+
+  $BadgeCountsModelCopyWith<$Res>? get badgeCounts;
 }
 
 /// @nodoc
@@ -66,7 +74,9 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? displayName = null,
     Object? profileImage = freezed,
     Object? reputation = null,
-    Object? badgeCount = freezed,
+    Object? badgeCounts = freezed,
+    Object? location = freezed,
+    Object? websiteUrl = freezed,
   }) {
     return _then(_value.copyWith(
       userId: null == userId
@@ -85,11 +95,31 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.reputation
           : reputation // ignore: cast_nullable_to_non_nullable
               as int,
-      badgeCount: freezed == badgeCount
-          ? _value.badgeCount
-          : badgeCount // ignore: cast_nullable_to_non_nullable
-              as int?,
+      badgeCounts: freezed == badgeCounts
+          ? _value.badgeCounts
+          : badgeCounts // ignore: cast_nullable_to_non_nullable
+              as BadgeCountsModel?,
+      location: freezed == location
+          ? _value.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as String?,
+      websiteUrl: freezed == websiteUrl
+          ? _value.websiteUrl
+          : websiteUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $BadgeCountsModelCopyWith<$Res>? get badgeCounts {
+    if (_value.badgeCounts == null) {
+      return null;
+    }
+
+    return $BadgeCountsModelCopyWith<$Res>(_value.badgeCounts!, (value) {
+      return _then(_value.copyWith(badgeCounts: value) as $Val);
+    });
   }
 }
 
@@ -106,7 +136,12 @@ abstract class _$$UserModelImplCopyWith<$Res>
       @JsonKey(name: 'display_name') String displayName,
       @JsonKey(name: 'profile_image') String? profileImage,
       int reputation,
-      @JsonKey(name: 'badge_count') int? badgeCount});
+      @JsonKey(name: 'badge_counts') BadgeCountsModel? badgeCounts,
+      @JsonKey(name: 'location') String? location,
+      @JsonKey(name: 'website_url') String? websiteUrl});
+
+  @override
+  $BadgeCountsModelCopyWith<$Res>? get badgeCounts;
 }
 
 /// @nodoc
@@ -124,7 +159,9 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? displayName = null,
     Object? profileImage = freezed,
     Object? reputation = null,
-    Object? badgeCount = freezed,
+    Object? badgeCounts = freezed,
+    Object? location = freezed,
+    Object? websiteUrl = freezed,
   }) {
     return _then(_$UserModelImpl(
       userId: null == userId
@@ -143,10 +180,18 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.reputation
           : reputation // ignore: cast_nullable_to_non_nullable
               as int,
-      badgeCount: freezed == badgeCount
-          ? _value.badgeCount
-          : badgeCount // ignore: cast_nullable_to_non_nullable
-              as int?,
+      badgeCounts: freezed == badgeCounts
+          ? _value.badgeCounts
+          : badgeCounts // ignore: cast_nullable_to_non_nullable
+              as BadgeCountsModel?,
+      location: freezed == location
+          ? _value.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as String?,
+      websiteUrl: freezed == websiteUrl
+          ? _value.websiteUrl
+          : websiteUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -159,7 +204,9 @@ class _$UserModelImpl implements _UserModel {
       @JsonKey(name: 'display_name') required this.displayName,
       @JsonKey(name: 'profile_image') this.profileImage,
       required this.reputation,
-      @JsonKey(name: 'badge_count') this.badgeCount});
+      @JsonKey(name: 'badge_counts') this.badgeCounts,
+      @JsonKey(name: 'location') this.location,
+      @JsonKey(name: 'website_url') this.websiteUrl});
 
   factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserModelImplFromJson(json);
@@ -176,12 +223,18 @@ class _$UserModelImpl implements _UserModel {
   @override
   final int reputation;
   @override
-  @JsonKey(name: 'badge_count')
-  final int? badgeCount;
+  @JsonKey(name: 'badge_counts')
+  final BadgeCountsModel? badgeCounts;
+  @override
+  @JsonKey(name: 'location')
+  final String? location;
+  @override
+  @JsonKey(name: 'website_url')
+  final String? websiteUrl;
 
   @override
   String toString() {
-    return 'UserModel(userId: $userId, displayName: $displayName, profileImage: $profileImage, reputation: $reputation, badgeCount: $badgeCount)';
+    return 'UserModel(userId: $userId, displayName: $displayName, profileImage: $profileImage, reputation: $reputation, badgeCounts: $badgeCounts, location: $location, websiteUrl: $websiteUrl)';
   }
 
   @override
@@ -196,14 +249,18 @@ class _$UserModelImpl implements _UserModel {
                 other.profileImage == profileImage) &&
             (identical(other.reputation, reputation) ||
                 other.reputation == reputation) &&
-            (identical(other.badgeCount, badgeCount) ||
-                other.badgeCount == badgeCount));
+            (identical(other.badgeCounts, badgeCounts) ||
+                other.badgeCounts == badgeCounts) &&
+            (identical(other.location, location) ||
+                other.location == location) &&
+            (identical(other.websiteUrl, websiteUrl) ||
+                other.websiteUrl == websiteUrl));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, userId, displayName, profileImage, reputation, badgeCount);
+  int get hashCode => Object.hash(runtimeType, userId, displayName,
+      profileImage, reputation, badgeCounts, location, websiteUrl);
 
   @JsonKey(ignore: true)
   @override
@@ -221,11 +278,14 @@ class _$UserModelImpl implements _UserModel {
 
 abstract class _UserModel implements UserModel {
   const factory _UserModel(
-      {@JsonKey(name: 'user_id') required final int userId,
-      @JsonKey(name: 'display_name') required final String displayName,
-      @JsonKey(name: 'profile_image') final String? profileImage,
-      required final int reputation,
-      @JsonKey(name: 'badge_count') final int? badgeCount}) = _$UserModelImpl;
+          {@JsonKey(name: 'user_id') required final int userId,
+          @JsonKey(name: 'display_name') required final String displayName,
+          @JsonKey(name: 'profile_image') final String? profileImage,
+          required final int reputation,
+          @JsonKey(name: 'badge_counts') final BadgeCountsModel? badgeCounts,
+          @JsonKey(name: 'location') final String? location,
+          @JsonKey(name: 'website_url') final String? websiteUrl}) =
+      _$UserModelImpl;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
       _$UserModelImpl.fromJson;
@@ -242,8 +302,14 @@ abstract class _UserModel implements UserModel {
   @override
   int get reputation;
   @override
-  @JsonKey(name: 'badge_count')
-  int? get badgeCount;
+  @JsonKey(name: 'badge_counts')
+  BadgeCountsModel? get badgeCounts;
+  @override
+  @JsonKey(name: 'location')
+  String? get location;
+  @override
+  @JsonKey(name: 'website_url')
+  String? get websiteUrl;
   @override
   @JsonKey(ignore: true)
   _$$UserModelImplCopyWith<_$UserModelImpl> get copyWith =>

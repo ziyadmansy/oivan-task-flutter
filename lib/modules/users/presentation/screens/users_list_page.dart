@@ -6,7 +6,6 @@ import 'package:stackoverflow_users_reputation/modules/users/presentation/bloc/u
 import '../bloc/user_bloc.dart';
 import '../widgets/user_list_item.dart';
 
-
 class UsersPage extends StatefulWidget {
   const UsersPage({super.key});
 
@@ -74,9 +73,10 @@ class _UsersPageState extends State<UsersPage> {
               if (users.isEmpty) {
                 return const Center(child: Text('No users found'));
               }
-              return ListView.builder(
+              return ListView.separated(
                 controller: _scrollController,
                 itemCount: users.length + (_isLoadingMore ? 1 : 0),
+                separatorBuilder: (context, index) => const Divider(),
                 itemBuilder: (context, index) {
                   if (index == users.length) {
                     return const Padding(
@@ -109,4 +109,3 @@ class _UsersPageState extends State<UsersPage> {
     );
   }
 }
-
