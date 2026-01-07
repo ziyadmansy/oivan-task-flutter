@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/di/service_locator.dart';
-import 'core/routes/app_routes.dart';
+import 'core/routes/app_route_generator.dart';
+import 'core/routes/navigation_service.dart';
+import 'core/routes/route_paths.dart';
 import 'core/storage/hive_service.dart';
 import 'core/styles/app_theme.dart';
 import 'modules/reputation/presentation/bloc/reputation_bloc.dart';
@@ -23,11 +25,16 @@ void main() async {
   // Setup dependency injection
   await setupServiceLocator();
 
-  runApp(const StackOverflowUsersApp());
+  runApp(StackOverflowUsersApp());
 }
 
 class StackOverflowUsersApp extends StatelessWidget {
-  const StackOverflowUsersApp({super.key});
+  StackOverflowUsersApp({super.key}) {
+    // Initialize the navigation service with the navigator key
+    NavigationService.instance.setNavigationKey(_navigatorKey);
+  }
+
+  final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +49,9 @@ class StackOverflowUsersApp extends StatelessWidget {
         title: 'StackOverflow Users',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightTheme,
-        onGenerateRoute: AppRouter.onGenerateRoute,
-        initialRoute: '/',
+        navigatorKey: _navigatorKey,
+        onGenerateRoute: AppRouteGenerator.onGenerateRoute,
+        initialRoute: RoutePaths.home,
       ),
     );
   }

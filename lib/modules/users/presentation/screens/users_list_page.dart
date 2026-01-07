@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:stackoverflow_users_reputation/core/routes/route_extensions.dart';
 import 'package:stackoverflow_users_reputation/modules/users/presentation/bloc/user_event.dart';
 import 'package:stackoverflow_users_reputation/modules/users/presentation/bloc/user_state.dart';
 
@@ -16,12 +17,6 @@ class UsersPage extends StatefulWidget {
 }
 
 class _UsersPageState extends State<UsersPage> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<UserBloc>().add(const UserEvent.fetchNextPage(pageKey: 1));
-  }
-
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
@@ -48,9 +43,7 @@ class _UsersPageState extends State<UsersPage> {
                     );
                   },
                   onUserTap: (user) {
-                    Navigator.of(
-                      context,
-                    ).pushNamed('/reputation', arguments: user);
+                    context.goToReputationDetail(user: user);
                   },
                 );
               },

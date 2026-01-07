@@ -40,7 +40,13 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     final currentState = state;
     if (currentState.isLoading) return;
 
-    emit(currentState.copyWith(isLoading: true, error: null));
+    emit(
+      currentState.copyWith(
+        isLoading: true,
+        error: null,
+        showOnlyBookmarked: false,
+      ),
+    );
 
     try {
       final newItems = await getUsersUseCase(page: pageKey, pageSize: pageSize);
@@ -52,15 +58,27 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           keys: [...?currentState.keys, pageKey],
           hasNextPage: !isLastPage,
           isLoading: false,
+          showOnlyBookmarked: false,
         ),
       );
     } catch (error) {
-      emit(currentState.copyWith(error: error, isLoading: false));
+      emit(
+        currentState.copyWith(
+          error: error,
+          isLoading: false,
+          showOnlyBookmarked: false,
+        ),
+      );
     }
   }
 
   Future<void> _onRefreshUsers(int pageSize, Emitter<UserState> emit) async {
-    emit(UserState(pagingState: PagingState<int, UserEntity>(isLoading: true)));
+    emit(
+      UserState(
+        pagingState: PagingState<int, UserEntity>(isLoading: true),
+        showOnlyBookmarked: false,
+      ),
+    );
 
     try {
       final users = await getUsersUseCase(page: 1, pageSize: pageSize);
@@ -74,6 +92,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
             hasNextPage: !isLastPage,
             isLoading: false,
           ),
+          showOnlyBookmarked: false,
         ),
       );
     } catch (error) {
@@ -83,6 +102,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
             error: error,
             isLoading: false,
           ),
+          showOnlyBookmarked: false,
         ),
       );
     }
@@ -130,17 +150,35 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       }
 
       final currentState = state;
-      final updatedPages =
-          currentState.pages?.map((page) {
-            return page.map((u) {
-              if (u.userId == user.userId) {
-                return u.copyWith(isBookmarked: !u.isBookmarked);
-              }
-              return u;
-            }).toList();
-          }).toList();
 
-      emit(currentState.copyWith(pages: updatedPages));
+      // If we're viewing bookmarks and just removed a bookmark, reload bookmarks
+      if (currentState.showOnlyBookmarked && user.isBookmarked) {
+        final bookmarkedUsers = await getBookmarkedUsersUseCase();
+        emit(
+          UserState(
+            pagingState: PagingState<int, UserEntity>(
+              pages: [bookmarkedUsers],
+              keys: [1],
+              hasNextPage: false,
+              isLoading: false,
+            ),
+            showOnlyBookmarked: true,
+          ),
+        );
+      } else {
+        // Otherwise, just update the local state
+        final updatedPages =
+            currentState.pages?.map((page) {
+              return page.map((u) {
+                if (u.userId == user.userId) {
+                  return u.copyWith(isBookmarked: !u.isBookmarked);
+                }
+                return u;
+              }).toList();
+            }).toList();
+
+        emit(currentState.copyWith(pages: updatedPages));
+      }
     } catch (e) {
       emit(state.copyWith(error: e));
     }
