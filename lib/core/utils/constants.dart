@@ -11,7 +11,6 @@ class AppConstants {
 
   // Pagination
   static const int itemsPerPage = 30;
-  static const int maxRetryAttempts = 3;
 
   // Date Formats
   static const String dateFormat = 'yyyy-MM-dd';

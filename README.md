@@ -141,6 +141,55 @@ flutter build ios
 flutter build web
 ```
 
+## 🧪 Testing & Code Quality
+
+### Comprehensive Unit Tests
+This project includes extensive unit tests demonstrating **clean code** and **domain-driven design** principles:
+
+- **BLoC Tests** (`user_bloc_test.dart`, `reputation_bloc_test.dart`)
+  - State management verification with proper state transitions
+  - Event handling and error scenarios
+  - Mocking of dependencies using Mockito
+  - Tests for pagination, bookmarking, and filtering
+
+- **Domain Use Case Tests** (`user_usecases_test.dart`)
+  - Business logic layer testing in isolation
+  - Repository abstraction verification
+  - Error propagation testing
+  - Domain-driven design showcase
+
+#### Running Tests
+```bash
+# Run all tests
+flutter test
+
+# Run unit tests only
+flutter test test/unit
+
+# Run tests with coverage
+flutter test --coverage
+
+# Run specific test file
+flutter test test/unit/modules/users/presentation/bloc/user_bloc_test.dart
+```
+
+#### Test Coverage
+✅ BLoC state transitions and event handling
+✅ Use case business logic
+✅ Error handling and exceptions
+✅ Edge cases and boundary conditions
+✅ Multi-page pagination logic
+✅ Bookmark persistence and filtering
+
+For detailed test documentation, see [test/TEST_DOCUMENTATION.md](test/TEST_DOCUMENTATION.md)
+
+### Testing Best Practices
+- **AAA Pattern** (Arrange-Act-Assert) for test structure
+- **Proper Mocking** using Mockito for layer isolation
+- **bloc_test** for comprehensive BLoC testing
+- **Single Responsibility** - Each test validates one behavior
+- **Clear Naming** - Test names describe expected behavior
+
 ## 🏛️ Project Structure Details
 
 ### Core Module
