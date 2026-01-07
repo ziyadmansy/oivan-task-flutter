@@ -81,9 +81,9 @@ class UserListItem extends StatelessWidget {
                     user.isBookmarked ? Icons.bookmark : Icons.bookmark_border,
                     color: user.isBookmarked ? Colors.blue : Colors.grey,
                   ),
-                  onPressed: () => onBookmarkToggle?.call(user),
+                  onPressed: () => onBookmarkToggle!(user),
                 ),
-        onTap: () => onUserTap?.call(user),
+        onTap: onUserTap == null ? null : () => onUserTap!(user),
       ),
     );
   }
