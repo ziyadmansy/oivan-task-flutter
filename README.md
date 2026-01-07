@@ -14,13 +14,9 @@ This app showcases a well-architected Flutter project using:
 
 ## 📸 Screenshots
 
-| Users List | Bookmarks |
-|---|---|
-| ![Users](screenshot_users.png) | ![Bookmarks](screenshot_bookmarks.png) |
-
-| Reputation Details |
-|---|
-| ![Reputation Details](screenshot_reputation_details.png) |
+| Users List | Bookmarks | Reputation Details |
+|---|---|---|
+| ![Users](screenshot_users.png) | ![Bookmarks](screenshot_bookmarks.png) | ![Reputation Details](screenshot_reputation_details.png) |
 
 ## ✨ Features
 
