@@ -76,10 +76,26 @@ class _ReputationDetailScreenState extends State<ReputationDetailScreen> {
                               reputation.reputationHistoryType
                                   .toDisplayString(),
                             ),
-                            subtitle: Text(
-                              DateFormat(
-                                'MMM dd, yyyy HH:mm',
-                              ).format(reputation.createdAt),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  DateFormat(
+                                    'MMM dd, yyyy HH:mm',
+                                  ).format(reputation.createdAt),
+                                ),
+                                if (reputation.postId != null)
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 4),
+                                    child: Text(
+                                      'Post ID: ${reputation.postId}',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall
+                                          ?.copyWith(color: Colors.grey[600]),
+                                    ),
+                                  ),
+                              ],
                             ),
                             trailing: Container(
                               padding: const EdgeInsets.symmetric(
