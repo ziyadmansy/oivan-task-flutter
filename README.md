@@ -78,7 +78,7 @@ lib/
 
 1. **Clone the repository**
 ```bash
-git clone [https://github.com/ziyadmansy/oivan-task-flutter.git](https://github.com/ziyadmansy/oivan-task-flutter.git)
+git clone [https://github.com/ziyadmansy/oivan-task-flutter.git]
 cd oivan_task
 ```
 
